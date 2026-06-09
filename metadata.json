@@ -1,0 +1,6 @@
+{
+  "name": "ZACHARY Portfolio",
+  "description": "Premium editorial systems portfolio for Zachary, showcasing autonomous workflows, e-commerce optimization, and agentic AI pipelines.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
