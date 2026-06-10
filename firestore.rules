@@ -1,0 +1,42 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // catching default-deny all fields
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    match /leads/{leadId} {
+      allow create: if isValidId(leadId) && isValidLead(incoming());
+      allow read, update, delete: if isSignedIn() && (request.auth.token.email == "zacharyongeri121@gmail.com" || (resource.data.ownerId == request.auth.uid));
+    }
+  }
+
+  function isValidId(id) {
+    return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+  }
+
+  function incoming() {
+    return request.resource.data;
+  }
+
+  function existing() {
+    return resource.data;
+  }
+
+  function isSignedIn() {
+    return request.auth != null;
+  }
+
+  function isValidLead(data) {
+    return data.id is string && data.id.size() <= 64
+        && data.name is string && data.name.size() <= 200
+        && data.email is string && data.email.size() <= 200
+        && data.message is string && data.message.size() <= 5000
+        && data.timestamp is string && data.timestamp.size() <= 100
+        && (data.status == "HIGH_QUEUE_PRIORITY" || data.status == "IN_PROGRESS" || data.status == "ACCEPTED" || data.status == "ARCHIVED")
+        && (!("scheduledTime" in data) || (data.scheduledTime is string && data.scheduledTime.size() <= 100))
+        && (!("calendarEventId" in data) || (data.calendarEventId is string && data.calendarEventId.size() <= 200))
+        && (!("ownerId" in data) || (data.ownerId is string && data.ownerId.size() <= 128));
+  }
+}

@@ -8,10 +8,32 @@ import { useEffect, useState } from 'react';
 interface FooterProps {
   onContactClick: () => void;
   onNavigate: (sectionId: string) => void;
+  onSignatureClick: () => void;
 }
 
-export default function Footer({ onContactClick, onNavigate }: FooterProps) {
+export default function Footer({ onContactClick, onNavigate, onSignatureClick }: FooterProps) {
   const [utcTime, setUtcTime] = useState<string>('2026-06-09 20:10:57');
+  const [clickCount, setClickCount] = useState(0);
+
+  const handleSignatureClick = () => {
+    setClickCount((prev) => {
+      const next = prev + 1;
+      if (next >= 3) {
+        onSignatureClick();
+        return 0;
+      }
+      return next;
+    });
+  };
+
+  useEffect(() => {
+    if (clickCount > 0) {
+      const timeout = setTimeout(() => {
+        setClickCount(0);
+      }, 1500);
+      return () => clearTimeout(timeout);
+    }
+  }, [clickCount]);
 
   useEffect(() => {
     // Dynamic real-time UTC clock update to complement the professional precision of Zachary's work
@@ -39,9 +61,15 @@ export default function Footer({ onContactClick, onNavigate }: FooterProps) {
         {/* Left Signature */}
         <div className="col-span-12 md:col-span-6 flex flex-col justify-between gap-6" id="footer-brand-info">
           <div>
-            <div className="font-serif text-3xl font-bold tracking-tighter text-brand-dark mb-4">ZACHARY</div>
+            <div className="font-serif text-3xl font-bold tracking-tighter text-brand-dark mb-4 font-black">ZACHARY ONGERI</div>
             <p className="font-sans text-xs text-brand-muted/85 leading-relaxed max-w-sm">
-              © {new Date().getFullYear()} ZACHARY. AI Systems Engineering & Editorial Design. All rights reserved.
+              © {new Date().getFullYear()} Zachary Ongeri. AI Engineer for Marketing & Ecommerce.<br />
+              <span 
+                onClick={handleSignatureClick}
+                className="font-mono text-[10px] text-brand-accent tracking-widest uppercase font-bold mt-1.5 block cursor-pointer select-none"
+              >
+                Built in Nairobi. Working everywhere.
+              </span>
             </p>
           </div>
           

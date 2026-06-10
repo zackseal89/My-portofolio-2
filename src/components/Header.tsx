@@ -7,10 +7,12 @@ import { motion } from 'motion/react';
 
 interface HeaderProps {
   onContactClick: () => void;
+  onSystemsHubClick: () => void;
   onNavigate: (sectionId: string) => void;
+  showSystemsHub: boolean;
 }
 
-export default function Header({ onContactClick, onNavigate }: HeaderProps) {
+export default function Header({ onContactClick, onSystemsHubClick, onNavigate, showSystemsHub }: HeaderProps) {
   return (
     <motion.nav 
       initial={{ y: -50, opacity: 0 }}
@@ -68,14 +70,27 @@ export default function Header({ onContactClick, onNavigate }: HeaderProps) {
           </button>
         </div>
 
-        {/* CTA Get in Touch Button */}
-        <button 
-          onClick={onContactClick}
-          className="font-sans text-xs uppercase tracking-[0.15em] font-semibold px-5 py-2.5 border border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-brand-bg transition-all duration-300 active:scale-95 cursor-pointer"
-          id="nav-cta-btn"
-        >
-          Get in Touch
-        </button>
+        <div className="flex items-center gap-3">
+          {/* Systems Hub Operator Button */}
+          {showSystemsHub && (
+            <button 
+              onClick={onSystemsHubClick}
+              className="font-sans text-xs uppercase tracking-[0.15em] font-extrabold px-4.5 py-2.5 bg-brand-dark/10 hover:bg-brand-dark hover:text-white border border-brand-dark/20 text-brand-dark transition-all duration-300 active:scale-95 cursor-pointer flex items-center gap-1.5 sharp-edge"
+              id="nav-systems-hub-btn"
+            >
+              <span>Systems Hub</span>
+            </button>
+          )}
+
+          {/* CTA Get in Touch Button */}
+          <button 
+            onClick={onContactClick}
+            className="font-sans text-xs uppercase tracking-[0.15em] font-extrabold px-4.5 py-2.5 border border-brand-dark text-brand-dark hover:bg-brand-accent hover:border-brand-accent hover:text-brand-bg bg-transparent transition-all duration-300 active:scale-95 cursor-pointer sharp-edge"
+            id="nav-cta-btn"
+          >
+            Get in Touch
+          </button>
+        </div>
       </div>
     </motion.nav>
   );

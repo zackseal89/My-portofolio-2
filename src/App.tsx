@@ -11,15 +11,32 @@ import Footer from './components/Footer';
 import CaseStudyModal from './components/CaseStudyModal';
 import ContactDialog from './components/ContactDialog';
 import AIChatbot from './components/AIChatbot';
+import SystemsHub from './components/SystemsHub';
 import { CASE_STUDIES, SERVICES, PROJECTS, EXPERIENCES, SKILL_CATEGORIES } from './data';
 import { CaseStudy } from './types';
 import { Github, ExternalLink, Mail, Linkedin, Compass, Check, Code, MapPin, AppWindow, GraduationCap, Terminal } from 'lucide-react';
+import { initAuth } from './lib/firebase';
 
 export default function App() {
   const [selectedProject, setSelectedProject] = useState<CaseStudy | null>(null);
   const [isContactOpen, setIsContactOpen] = useState<boolean>(false);
+  const [isSystemsHubOpen, setIsSystemsHubOpen] = useState<boolean>(false);
   const [activeTab, setActiveTab2] = useState<'work' | 'services' | 'all'>('all');
+  const [isAdminVerified, setIsAdminVerified] = useState<boolean>(false);
   
+  // Observe auth state for header shortcut link rendering
+  useEffect(() => {
+    const unsubscribe = initAuth(
+      (user) => {
+        setIsAdminVerified(user.email === 'zacharyongeri121@gmail.com');
+      },
+      () => {
+        setIsAdminVerified(false);
+      }
+    );
+    return () => unsubscribe();
+  }, []);
+
   // Track currently active section to highlight navigation
   const [activeSection, setActiveSection] = useState<string>('hero');
 
@@ -101,7 +118,9 @@ export default function App() {
       {/* Header element */}
       <Header 
         onContactClick={() => setIsContactOpen(true)} 
+        onSystemsHubClick={() => setIsSystemsHubOpen(true)}
         onNavigate={handleNavigate} 
+        showSystemsHub={isAdminVerified}
       />
 
       {/* Main Container */}
@@ -124,10 +143,10 @@ export default function App() {
                 id="hero-tag"
               >
                 <span className="relative flex h-1.5 w-1.5">
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand-accent"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand-accent animate-pulse"></span>
                 </span>
                 <span className="font-mono text-[10px] uppercase tracking-[0.25em] font-extrabold text-brand-accent">
-                  SYSTEMATIC REVENUE ARCHITECTURE
+                  AI + E-COMMERCE SYSTEMS ENGINEER
                 </span>
               </motion.div>
 
@@ -136,10 +155,10 @@ export default function App() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="font-serif text-4xl sm:text-5xl md:text-[68px] lg:text-[76px] font-bold text-brand-dark leading-[1.08] tracking-tighter mb-8 max-w-5xl"
+                className="font-serif text-4xl sm:text-5xl md:text-[52px] lg:text-[58px] font-bold text-brand-dark leading-[1.12] tracking-tighter mb-8 max-w-5xl"
                 id="hero-headline"
               >
-                I build autonomous workflows, custom e-commerce systems, and agentic AI pipelines that scale revenue.
+                I build AI agents, agentic workflows, and custom Shopify systems that turn marketing operations into infrastructure.
               </motion.h1>
 
               {/* Paragraph describing vision */}
@@ -147,10 +166,10 @@ export default function App() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                className="font-sans text-lg sm:text-xl md:text-2xl text-brand-muted leading-relaxed mb-12 max-w-3xl"
+                className="font-sans text-base sm:text-lg text-brand-muted leading-relaxed mb-12 max-w-3xl"
                 id="hero-subtitle"
               >
-                Positioning brands ahead of the curve by eliminating manual operational friction.
+                Founder-operator, not an agency. I run my own ecommerce brand, so I build for clients the way I build for myself.
               </motion.p>
 
               {/* View Case studies triggers */}
@@ -169,10 +188,10 @@ export default function App() {
                 </button>
                 <button 
                   onClick={() => setIsContactOpen(true)}
-                  className="bg-transparent text-brand-dark border border-brand-dark px-8 py-4.5 font-sans text-xs uppercase tracking-[0.16em] font-extrabold transition-all duration-300 sharp-edge tracking-widest hover:bg-brand-dark hover:text-white cursor-pointer active:scale-95"
+                  className="bg-transparent text-brand-dark border border-brand-dark px-8 py-4.5 font-sans text-xs uppercase tracking-[0.16em] font-extrabold transition-all duration-300 sharp-edge tracking-widest hover:bg-brand-dark hover:text-white cursor-pointer active:scale-95 animate-pulse hover:animate-none"
                   id="hero-contact-btn"
                 >
-                  Request Consultation
+                  Book Systems Audit
                 </button>
               </motion.div>
 
@@ -225,31 +244,6 @@ export default function App() {
           </div>
         </section>
 
-        {/* PRIMARY IMAGE DIVIDER: High contrast brutalist concrete grayscale frame */}
-        <section className="px-6 md:px-12 w-full max-w-7xl mx-auto mb-24 md:mb-32" id="visual-anchor">
-          <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-10% 0px' }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full h-[400px] sm:h-[500px] md:h-[600px] relative overflow-hidden grayscale contrast-125 border border-brand-dark/10 shadow-sm sharp-edge"
-            id="primary-visual-image-wrapper"
-          >
-            <img 
-              className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-[2000ms] ease-out hover:scale-[1.04]"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_z11xzwjsoVxmqdjOlBEkLu9dS9Vg6UQUC5h697sWdw61p816WATLnNo6mx1FL88Sc8kltYoO-AtxZwmVzcGkRKNvSSMdBGhUlz7MCAHf_KLrklGuJI-Dt-rC9uBVy8UtK4h7aoTxc2oasgSNwoMpcHvYviyWc-9-bBzsdTUXBKwJ4bxPxbZqt6MjtjhuJhbrwBYbe-MY5DaOpRLy-Eez5-gPci-0fzAFluF2gfWBYv8z6Op0TEFv8mCOpI0s-mVnhNYkEtWn8GQ" 
-              alt="Deep concrete monolithic structure accentuating precision and deliberate construction gridlines."
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-brand-dark/5 pointer-events-none" />
-            
-            {/* Subtle floating camera asset spec */}
-            <div className="absolute bottom-6 right-6 font-mono text-[10px] text-white bg-black/60 px-3 py-1.5 backdrop-blur-md sharp-edge flex items-center gap-1.5">
-              <span>LOC: SYS_GRID // REVENUE_LABS</span>
-            </div>
-          </motion.div>
-        </section>
-
         {/* STRATEGIC IMPACT SECTION: The Why & Systematic Optimization columns */}
         <section 
           className="py-24 md:py-32 px-6 md:px-12 w-full max-w-7xl mx-auto border-t border-brand-dark/15" 
@@ -292,8 +286,8 @@ export default function App() {
 
                 {/* Pillar Heading with sharp rule line */}
                 <div className="space-y-4">
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-brand-dark border-b border-brand-dark pb-4 group-hover:border-brand-accent transition-colors duration-300">
-                    {study.id === 'speed-to-lead' ? 'Speed-to-lead' : study.id === 'aov-optimization' ? 'AOV Optimization' : 'Automated Intelligence'}
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-brand-dark border-b border-brand-dark pb-4 group-hover:border-brand-accent transition-colors duration-300 min-h-[64px] flex items-end">
+                    {study.title}
                   </h3>
                   
                   {/* Detailed Description */}
@@ -448,29 +442,29 @@ export default function App() {
             {/* Bio Text Column */}
             <div className="col-span-12 md:col-span-6 lg:col-span-4 space-y-6">
               <span className="font-sans text-xs uppercase tracking-[0.2em] font-extrabold text-brand-accent block">
-                THE ARCHITECT / SYSTEM WORKFLOWS
+                FOUNDER-OPERATOR & BUILDER
               </span>
               <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-brand-dark leading-tight">
                 About Zachary
               </h2>
-              <div className="space-y-4 font-sans text-sm text-brand-muted leading-relaxed">
+              <div className="space-y-4 font-sans text-sm text-[#52525b] leading-relaxed">
                 <p>
-                  I am an expert <strong>AI Systems Architect</strong> and <strong>Full-stack Developer</strong> specializing in autonomous revenue operational pipelines and custom e-commerce checkout software. I bridge the gap between high-fidelity architectural grids and sophisticated server-side calculations.
+                  Zachary Ongeri is an AI product builder and ecommerce operator based in Nairobi. By day, he serves as the AI Associate at a leading Nairobi law firm, where he built the firm's entire AI and digital infrastructure from the ground up: from a regulatory intelligence SaaS platform (RegWatch) to a headless website architecture and an AI-driven content engine.
                 </p>
                 <p>
-                  My philosophy centers around absolute structural utility. By applying engineering discipline and geometric order, I configure self-contained multi-agent loops that run securely inside the network. Every line of implementation must translate cleanly to a measurable business yield.
+                  Outside the firm, he founded and runs Nairobi Sole, a premier Kenyan sneaker ecommerce brand built on Shopify. He builds practical AI agent systems and automated workflows that make marketing, operational lead flows, and commerce run themselves.
                 </p>
               </div>
 
               {/* Little detail badge metadata */}
               <div className="grid grid-cols-2 gap-4 pt-4 border-t border-brand-dark/10">
                 <div>
-                  <span className="font-mono text-[9px] uppercase tracking-widest text-brand-muted block">Location / Active Area</span>
-                  <span className="font-sans text-xs font-semibold text-brand-dark">London & San Francisco (GMT/PST)</span>
+                  <span className="font-mono text-[9px] uppercase tracking-widest text-[#71717a] block font-bold">Location / Context</span>
+                  <span className="font-sans text-xs font-bold text-brand-dark">Nairobi, Kenya (Active Global)</span>
                 </div>
                 <div>
-                  <span className="font-mono text-[9px] uppercase tracking-widest text-brand-muted block">Available Projects</span>
-                  <span className="font-sans text-xs font-semibold text-brand-dark">Enterprise integrations & consults</span>
+                  <span className="font-mono text-[9px] uppercase tracking-widest text-[#71717a] block font-bold">Ecommerce Venture</span>
+                  <span className="font-sans text-xs font-bold text-brand-dark">Nairobi Sole Sneakers</span>
                 </div>
               </div>
             </div>
@@ -948,6 +942,7 @@ export default function App() {
       <Footer 
         onContactClick={() => setIsContactOpen(true)} 
         onNavigate={handleNavigate} 
+        onSignatureClick={() => setIsSystemsHubOpen(true)}
       />
 
       {/* Case Study Sandbox Modal */}
@@ -960,6 +955,12 @@ export default function App() {
       <ContactDialog 
         isOpen={isContactOpen} 
         onClose={() => setIsContactOpen(false)} 
+      />
+
+      {/* Systems Lead and Google Calendar Hub */}
+      <SystemsHub 
+        isOpen={isSystemsHubOpen} 
+        onClose={() => setIsSystemsHubOpen(false)} 
       />
 
       {/* Aesthetic AI Chatbot Liaison */}

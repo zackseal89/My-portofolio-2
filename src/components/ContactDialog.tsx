@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ArrowRight, Check, Send, Sparkles } from 'lucide-react';
+import { createLead } from '../lib/firebase';
 
 interface ContactDialogProps {
   isOpen: boolean;
@@ -21,16 +22,50 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
   
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email || !message) return;
 
     setStatus('submitting');
     
-    // Simulate real high-end lead routing workflow triage
-    setTimeout(() => {
+    try {
+      const consolidatedMessage = `Pillar: ${projectType} | Budget: ${budget}\n\nClient message: ${message}`;
+      await createLead({
+        name,
+        email,
+        message: consolidatedMessage
+      });
+      
+      // Also send to Express backend in parallel to keep backend local endpoint in-sync
+      try {
+        await fetch('/api/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, message: consolidatedMessage })
+        });
+      } catch (backErr) {
+        console.warn('Backend sync failed, but Firestore saved:', backErr);
+      }
       setStatus('success');
-    }, 1500);
+    } catch (error) {
+      console.error('Failed to submit via Firestore, trying backend fallback:', error);
+      // fallback in-memory submission if firebase was blocked
+      try {
+        const response = await fetch('/api/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, message: `Pillar: ${projectType} | Budget: ${budget}\n\n${message}` })
+        });
+        if (response.ok) {
+          setStatus('success');
+        } else {
+          throw new Error('Fallback also failed');
+        }
+      } catch (fErr) {
+        alert('Transmission error. Please try again.');
+        setStatus('idle');
+      }
+    }
   };
 
   const resetForm = () => {
@@ -119,9 +154,9 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
               <div className="flex-1 flex flex-col justify-between" id="contact-form-body">
                 <div className="space-y-6">
                   <div>
-                    <h2 className="font-serif text-3xl md:text-4xl font-bold tracking-tight">Initiate a Project</h2>
-                    <p className="font-sans text-xs text-brand-muted mt-2 leading-relaxed">
-                      Please supply contact metadata. Custom automated triage routes your brief to Zachary's workspace instantly.
+                    <h2 className="font-serif text-3xl md:text-4xl font-bold tracking-tight">Book a Systems Audit</h2>
+                    <p className="font-sans text-xs text-[#52525b] mt-2 leading-relaxed">
+                      Book a free 30-minute systems audit. I will inspect your marketing campaigns, operations, or Shopify store setup and outline exactly where intelligent systems or custom Shopify integrations can remove friction.
                     </p>
                   </div>
 

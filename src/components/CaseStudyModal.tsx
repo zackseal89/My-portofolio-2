@@ -34,65 +34,50 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
     setSimulationStep(0);
     setLogMessages([]);
 
-    if (project.id === 'speed-to-lead') {
-      const logs = [
-        '🚀 INTAKE: Form submission detected.',
-        '🧠 CLASSIFICATION: Querying Gemini API parser...',
-        '📊 ASSESSMENT: Category scored as [High Intent Sales / Custom Shopify].',
-        '✍️ GEN_AI: Crafting personalized outreach reply...',
-        '🔔 ROUTING: Notifying team via high-priority Slack channel #sales-triage.'
+    let logs: string[] = [];
+    if (project.id === 'regwatch') {
+      logs = [
+        '📂 INTAKE: New Regulatory Publication (Finance Act Amendment PDF).',
+        '🧠 SEGMENTATION: Embedding chunks dynamically via Voyage AI...',
+        '📊 DB RECORD: Injecting semantic node indices into Supabase pgvector database.',
+        '🔍 COMPLIANCE AUDIT: Pre-computed vector lookup completed successfully.',
+        '✍️ GENERATOR: RAG query ready with 100% legal document bibliography citations.'
       ];
-      
-      let step = 0;
-      const interval = setInterval(() => {
-        setLogMessages(prev => [...prev, logs[step]]);
-        setSimulationStep(step + 1);
-        step += 1;
-        if (step >= logs.length) {
-          clearInterval(interval);
-          setSimulationState('completed');
-        }
-      }, 900);
-    } else if (project.id === 'aov-optimization') {
-      const logs = [
-        '🛒 CART: Inspecting cart contents (Premium Linen Shirt, $120).',
-        '💡 RECOMMENDATION: Querying complimentary accessories...',
-        '🖼️ STYLING: Selecting "Handcrafted Leather Belt" matching the editorial tone.',
-        '💰 DYNAMIC OFFER: Micro-upsell card rendered in payment section.',
-        '📈 METRICS: AOV raised dynamically to $185.'
+    } else if (project.id === 'whatsapp-sme-agents') {
+      logs = [
+        '💬 INTAKE: Inbound WhatsApp API Text: "I want to schedule a consultation tomorrow at 2 PM."',
+        '🧠 CLASSIFICATION: Querying Google Gemini classifier module...',
+        '📅 SCHEDULE SYNCRONIZER: Checking calendar slot openings for tomorrow 14:00...',
+        '💬 AUTOMATED FEEDBACK: Sending immediate WhatsApp confirmation message reserving the slot.',
+        '📈 TELEMETRY: Lead metadata logged securely in client CRM database.'
       ];
-      
-      let step = 0;
-      const interval = setInterval(() => {
-        setLogMessages(prev => [...prev, logs[step]]);
-        setSimulationStep(step + 1);
-        step += 1;
-        if (step >= logs.length) {
-          clearInterval(interval);
-          setSimulationState('completed');
-        }
-      }, 900);
+    } else if (project.id === 'nairobi-sole') {
+      logs = [
+        '👟 STOREFRONT CART: Cart item scan: (Nairobi Sole Sneakers, $120).',
+        '💡 CROSS-SELL ENGINE: Locating matching shoe accessories from Nairobi supplier warehouse...',
+        '🖼️ CUSTOM COMPONENT: Displaying Sneaker Protective Shield add-on check box.',
+        '📈 TRANSACTION RESULT: Total Cart Value raised with 100% higher profit margins.'
+      ];
     } else {
-      // agentic-pipelines
-      const logs = [
-        '🔍 MONITOR: Inventory scan completed. Alert Level [LOW-STOCK].',
-        '🌐 SEARCH: Searching wholesale supplier databases for product "Matte Obsidian Finish"...',
-        '🧾 COMPILE: Calculated low price option from Acme Corp ($14.20/unit).',
-        '📝 COMPOSE: Generated purchase email draft in Gmail with attached PDF statement.',
-        '📬 GATEWAY: Awaiting operator single-click approval to write payment record.'
+      // mnl-advocates
+      logs = [
+        '⚡ NETWORK DNS RESOLUTION: Flushing redundant host records and resolving nameserver conflicts.',
+        '⚙️ HEADLESS SCRAPER: Triggering Next.js content engine blog loop crawler.',
+        '📄 SEO INDEX: Mapping meta tag headers covers Kenyan finance bill policy.',
+        '🚀 LOAD TIME METRICS: Site speed optimized to 0.42 seconds (sub-second headless standard reached).'
       ];
-      
-      let step = 0;
-      const interval = setInterval(() => {
-        setLogMessages(prev => [...prev, logs[step]]);
-        setSimulationStep(step + 1);
-        step += 1;
-        if (step >= logs.length) {
-          clearInterval(interval);
-          setSimulationState('completed');
-        }
-      }, 900);
     }
+
+    let step = 0;
+    const interval = setInterval(() => {
+      setLogMessages(prev => [...prev, logs[step]]);
+      setSimulationStep(step + 1);
+      step += 1;
+      if (step >= logs.length) {
+        clearInterval(interval);
+        setSimulationState('completed');
+      }
+    }, 900);
   };
 
   const resetSimulation = () => {
@@ -242,48 +227,80 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
 
                 {/* Specific Simulator Form Inputs based on Case */}
                 <div className="py-4 border-y border-brand-dark/10 space-y-4">
-                  {project.id === 'speed-to-lead' && (
+                  {project.id === 'regwatch' && (
                     <div className="space-y-2">
                       <label className="block text-[11px] uppercase tracking-wider text-brand-muted font-bold">
-                        Simulated Inbound Message:
+                        Semantic RAG Compliance Query:
                       </label>
-                      <textarea
+                      <input
+                        type="text"
                         disabled={simulationState === 'running'}
                         value={leadMessage}
                         onChange={(e) => setLeadMessage(e.target.value)}
-                        className="w-full text-xs p-3 bg-brand-surface border border-brand-dark/20 text-brand-dark placeholder-brand-muted focus:outline-none focus:border-brand-accent font-sans sharp-edge resize-none h-24"
-                        placeholder="Type lead message..."
+                        className="w-full text-xs p-3 bg-brand-surface border border-brand-dark/20 text-brand-dark focus:outline-none focus:border-brand-accent font-sans sharp-edge"
+                        placeholder="Type regulatory query..."
                       />
                       <div className="flex flex-wrap gap-1">
                         <button
                           disabled={simulationState === 'running'}
-                          onClick={() => setLeadMessage('Hi! Looking to optimize our e-commerce checkout flow. We generate $500k in monthly recurring revenue but our cart abandonment is high.')}
-                          className="text-[9px] bg-brand-surface border border-brand-dark/15 px-2 py-1 text-brand-muted hover:border-brand-accent transition-colors font-sans"
+                          onClick={() => setLeadMessage('What are the critical changes regarding virtual assets in the new Finance Act?')}
+                          className="text-[9px] bg-brand-surface border border-brand-dark/15 px-2 py-1 text-brand-muted hover:border-brand-accent transition-colors font-sans font-bold"
                         >
-                          Preset 1: Luxury Apparel
+                          Probe: Finance Act
                         </button>
                         <button
                           disabled={simulationState === 'running'}
-                          onClick={() => setLeadMessage('Spam message alert: Cryptocurrency token launch event promotion details attached inside.')}
-                          className="text-[9px] bg-brand-surface border border-brand-dark/15 px-2 py-1 text-brand-muted hover:border-brand-accent transition-colors font-sans"
+                          onClick={() => setLeadMessage('List all compliance deadlines for corporate tax filing additions.')}
+                          className="text-[9px] bg-brand-surface border border-brand-dark/15 px-2 py-1 text-brand-muted hover:border-brand-accent transition-colors font-sans font-bold"
                         >
-                          Preset 2: Automated Spam
+                          Probe: Filing Deadlines
                         </button>
                       </div>
                     </div>
                   )}
 
-                  {project.id === 'aov-optimization' && (
+                  {project.id === 'whatsapp-sme-agents' && (
+                    <div className="space-y-2">
+                      <label className="block text-[11px] uppercase tracking-wider text-brand-muted font-bold">
+                        Simulated WhatsApp Client Message:
+                      </label>
+                      <textarea
+                        disabled={simulationState === 'running'}
+                        value={leadMessage}
+                        onChange={(e) => setLeadMessage(e.target.value)}
+                        className="w-full text-xs p-3 bg-brand-surface border border-brand-dark/20 text-brand-dark placeholder-brand-muted focus:outline-none focus:border-brand-accent font-sans sharp-edge resize-none h-20"
+                        placeholder="Type standard whatsapp customer message..."
+                      />
+                      <div className="flex flex-wrap gap-1">
+                        <button
+                          disabled={simulationState === 'running'}
+                          onClick={() => setLeadMessage("Hi, I'd like to book an Airbnb reservation check-in for Friday please.")}
+                          className="text-[9px] bg-brand-surface border border-brand-dark/15 px-2 py-1 text-brand-muted hover:border-brand-accent transition-colors font-sans font-bold"
+                        >
+                          Booking Inbound
+                        </button>
+                        <button
+                          disabled={simulationState === 'running'}
+                          onClick={() => setLeadMessage("Are there shoes in size 42 available for immediate delivery in Nairobi?")}
+                          className="text-[9px] bg-brand-surface border border-brand-dark/15 px-2 py-1 text-brand-muted hover:border-brand-accent transition-colors font-sans font-bold"
+                        >
+                          Inventory Check
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {project.id === 'nairobi-sole' && (
                     <div className="space-y-3">
                       <div className="space-y-1">
                         <div className="flex justify-between text-xs font-mono">
-                          <span className="text-brand-muted">Current Cart Basket Value:</span>
+                          <span className="text-brand-muted">Standard Sneaker Price:</span>
                           <span className="text-brand-dark font-bold">${cartValue}</span>
                         </div>
                         <input
                           type="range"
-                          min="30"
-                          max="400"
+                          min="80"
+                          max="250"
                           disabled={simulationState === 'running'}
                           value={cartValue}
                           onChange={(e) => setCartValue(Number(e.target.value))}
@@ -293,7 +310,7 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
                       <div className="p-3 bg-brand-surface border border-brand-dark/10 flex items-center justify-between sharp-edge">
                         <div className="flex items-center gap-2">
                           <ShoppingBag size={14} className="text-brand-accent" />
-                          <span className="font-sans text-xs font-bold text-brand-dark">Pairing Leather Accessories</span>
+                          <span className="font-sans text-xs font-bold text-brand-dark">Pair Protective Sneaker Shields ($15)</span>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input 
@@ -309,30 +326,15 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
                     </div>
                   )}
 
-                  {project.id === 'agentic-pipelines' && (
+                  {project.id === 'mnl-advocates' && (
                     <div className="space-y-2">
                       <div className="flex justify-between items-center text-xs">
-                        <span className="text-brand-muted">Obsidian Finish Box Stock:</span>
-                        <span className={`font-bold ${supplyStock < 10 ? 'text-red-600' : 'text-green-700'}`}>
-                          {supplyStock} Units {supplyStock < 10 && '(Auto-Trigger Alert!)'}
-                        </span>
+                        <span className="text-brand-muted">Target Host records:</span>
+                        <span className="font-bold text-green-700">Healthy & Decoupled (Vite static)</span>
                       </div>
-                      <div className="flex gap-2">
-                        <button
-                          disabled={simulationState === 'running'}
-                          onClick={() => setSupplyStock(prev => Math.max(0, prev - 3))}
-                          className="flex-1 text-center py-2 bg-brand-surface border border-brand-dark/15 hover:border-red-500 font-mono text-xs text-brand-muted hover:text-brand-dark transition-colors"
-                        >
-                          - Use 3 Units
-                        </button>
-                        <button
-                          disabled={simulationState === 'running'}
-                          onClick={() => setSupplyStock(15)}
-                          className="flex-1 text-center py-2 bg-brand-surface border border-brand-dark/15 hover:border-brand-accent font-mono text-xs text-brand-muted hover:text-brand-dark transition-colors"
-                        >
-                          Restock to 15
-                        </button>
-                      </div>
+                      <p className="text-xs text-brand-muted leading-relaxed font-sans">
+                        Removing redundant host routing, separational Next.js cache tuning and setting up Perplexity citation configurations.
+                      </p>
                     </div>
                   )}
 
@@ -393,19 +395,18 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
                     <CheckCircle className="text-brand-accent shrink-0 mt-0.5" size={16} />
                     <div className="text-xs">
                       <p className="font-bold text-brand-dark">Execution Successful</p>
-                      <p className="text-brand-muted mt-1 leading-relaxed">
-                        {project.id === 'speed-to-lead' && (
-                          leadMessage.toLowerCase().includes('crypto') || leadMessage.toLowerCase().includes('spam')
-                            ? 'Lead marked as low priority spam. Archive command triggered automatically, workflow stopped with 100% precision score.'
-                            : 'Personalized lead briefing compiled and pushed to #sales-triage with drafted outreach template. Client pipeline response validated.'
+                      <p className="text-[#27272a] mt-1 leading-relaxed font-sans text-xs">
+                        {project.id === 'regwatch' && (
+                          `RegWatch RAG engine processed query: "${leadMessage}". Located exact document match inside Gazette PDF chunk 24. Generated compliant citations with complete legal citations in 0.8s.`
                         )}
-                        {project.id === 'aov-optimization' && (
-                          `Calculated transaction summary. Cart increased from $${cartValue} to $${cartValue + (selectedUpsell ? 65 : 0)} with frictionless accessory add-on. Expected AOV increase of 18.5%.`
+                        {project.id === 'whatsapp-sme-agents' && (
+                          `WhatsApp Agent successfully matched client intent, queried timeslots, booked the schedule, and responded dynamically in under 30 seconds.`
                         )}
-                        {project.id === 'agentic-pipelines' && (
-                          supplyStock < 10 
-                            ? 'Inventory dip below threshold triggered wholesale API scanning. Alternate drafts written to purchaser box and recorded in DB logs.'
-                            : 'Inventory metrics verified stable. Watcher loops continue scanning at set chronological cron parameters.'
+                        {project.id === 'nairobi-sole' && (
+                          `Calculated sneaker purchase metrics. Sneaker cart increased from $${cartValue} to $${cartValue + (selectedUpsell ? 15 : 0)} with protective Sneaker Shield upsell option. Expected order-value performance raised.`
+                        )}
+                        {project.id === 'mnl-advocates' && (
+                          "Headless architecture page speed optimized to 0.42s. Legacy routing conflicts fully resolved. Custom SEO schema is live, ensuring elite Perplexity indexing authority."
                         )}
                       </p>
                     </div>
