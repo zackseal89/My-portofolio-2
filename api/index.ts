@@ -1,6 +1,4 @@
 import express from "express";
-import path from "path";
-import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
 
@@ -8,8 +6,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
-
 app.use(express.json());
 
 // Initialize the secure server-side Gemini client.
@@ -17,14 +13,7 @@ const apiKey = process.env.GEMINI_API_KEY;
 let ai: GoogleGenAI | null = null;
 
 if (apiKey) {
-  ai = new GoogleGenAI({
-    apiKey: apiKey,
-    httpOptions: {
-      headers: {
-        'User-Agent': 'aistudio-build',
-      }
-    }
-  });
+  ai = new GoogleGenAI({ apiKey });
 }
 
 // Global Leads Store (In-memory mock for session scope as standard persistence)
@@ -85,17 +74,18 @@ app.post("/api/chat", async (req, res) => {
 
   try {
     // Format history for the `@google/genai` chats SDK.
-    // Each history item: { role: 'user' | 'model', parts: [{ text: string }] }
     const formattedHistory = (history || []).map((msg: any) => ({
       role: msg.role === "assistant" ? "model" : "user",
       parts: [{ text: msg.content }]
     }));
 
-    // Create the chat session
+    // Create the chat session using the new SDK pattern
     const chat = ai.chats.create({
-      model: "gemini-3.5-flash",
+      model: "gemini-1.5-flash",
       config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
+        systemInstruction: {
+          parts: [{ text: SYSTEM_INSTRUCTION }]
+        },
         temperature: 0.7,
       },
       history: formattedHistory
@@ -129,30 +119,9 @@ app.post("/api/lead", (req, res) => {
   res.json({ success: true, lead: newLead });
 });
 
-// Endpoint: Fetch Lead Queue (Visible in dev or custom console)
+// Endpoint: Fetch Lead Queue
 app.get("/api/leads", (req, res) => {
   res.json({ leads });
 });
 
-// Integration of Vite Development Server Middleware
-async function startServer() {
-  if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
-    app.use(vite.middlewares);
-  } else {
-    const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
-    });
-  }
-
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`ZACHARY Systems Server active on http://0.0.0.0:${PORT} in [${process.env.NODE_ENV || "development"}]`);
-  });
-}
-
-startServer();
+export default app;
