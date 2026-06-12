@@ -153,7 +153,7 @@ export const PROJECTS: Project[] = [
     technologies: ['Next.js 14', 'Supabase (pgvector)', 'Voyage AI Embeddings', 'Anthropic Claude API', 'Vercel'],
     liveUrl: 'https://ais-pre-2dh3i6sdmzuqats6vbzd2o-24581161265.europe-west2.run.app',
     repoUrl: 'https://github.com/zacharyongeri/regwatch-rag',
-    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop'
+    image: '/assets/regwatch.png'
   },
   {
     id: 'nairobi-sole-shopify',
@@ -164,7 +164,7 @@ export const PROJECTS: Project[] = [
     technologies: ['Shopify Portal', 'Lovable.dev', 'Notion operating structures', 'Supplier Tracker'],
     liveUrl: 'https://naisole.store',
     repoUrl: 'https://github.com/zacharyongeri/nairobi-sole',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop'
+    image: '/assets/nairobi-sole.png'
   },
   {
     id: 'whatsapp-ai-verticals',
@@ -175,7 +175,7 @@ export const PROJECTS: Project[] = [
     technologies: ['WhatsApp Business API', 'Claude API', 'Express Server', 'Google Calendar API'],
     liveUrl: 'https://ais-pre-2dh3i6sdmzuqats6vbzd2o-24581161265.europe-west2.run.app',
     repoUrl: 'https://github.com/zacharyongeri/whatsapp-leads-agents',
-    image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=600&auto=format&fit=crop'
+    image: '/assets/whatsapp-agents.png'
   }
 ];
 

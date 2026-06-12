@@ -615,9 +615,8 @@ export default function App() {
               >
                 <img 
                   className="w-full h-full object-cover grayscale brightness-95 select-none pointer-events-none group-hover:grayscale-0 transition-all duration-[1200ms]"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1Crtiv_d5xVYUU23sPfFG5CiWPLeAbAVJ7ROPKkgUuq1BQ7LYJa65K-NezplTWJxIG6wS35KO2PTeN9g5_4Bt_XKMWA0jWK_I6G7hBsk2vd1M6vdUmZHhdnptme6ARKfKIyn47oJT3dh6e9JwsXUcMD5HkkDMsqt2UWPbcRBD1n3ZOndw69WC96Scm9z44lxCZdfI9AZJ7ttArpEHTHXNj5dJZQEa8zT34wSEbFcxKEEbjDrXTptCIe_-d8_sN60b_IFPcIwE34Y" 
+                  src="/assets/workspace.png" 
                   alt="Minimalist designer desk workspace featuring mechanical hardware & technical draft designs."
-                  referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-brand-dark/5 pointer-events-none" />
                 
