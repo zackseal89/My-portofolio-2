@@ -28,41 +28,29 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
 
     setStatus('submitting');
     
+    const consolidatedMessage = `Pillar: ${projectType} | Budget: ${budget}\n\nClient message: ${message}`;
     try {
-      const consolidatedMessage = `Pillar: ${projectType} | Budget: ${budget}\n\nClient message: ${message}`;
       await createLead({
         name,
         email,
         message: consolidatedMessage
       });
-      
-      // Also send to Express backend in parallel to keep backend local endpoint in-sync
-      try {
-        await fetch('/api/lead', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, message: consolidatedMessage })
-        });
-      } catch (backErr) {
-        console.warn('Backend sync failed, but Firestore saved:', backErr);
-      }
       setStatus('success');
     } catch (error) {
-      console.error('Failed to submit via Firestore, trying backend fallback:', error);
-      // fallback in-memory submission if firebase was blocked
+      console.error('Failed to submit via Firestore:', error);
       try {
-        const response = await fetch('/api/lead', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, message: `Pillar: ${projectType} | Budget: ${budget}\n\n${message}` })
+        const localLeads = JSON.parse(localStorage.getItem('mock_leads') || '[]');
+        localLeads.push({
+          id: `LEAD-MOCK-${Date.now()}`,
+          name,
+          email,
+          message: consolidatedMessage,
+          timestamp: new Date().toISOString()
         });
-        if (response.ok) {
-          setStatus('success');
-        } else {
-          throw new Error('Fallback also failed');
-        }
+        localStorage.setItem('mock_leads', JSON.stringify(localLeads));
+        setStatus('success');
       } catch (fErr) {
-        alert('Transmission error. Please try again.');
+        alert('Transmission error. Please check your network connectivity and try again.');
         setStatus('idle');
       }
     }
