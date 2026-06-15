@@ -169,7 +169,7 @@ export default function App() {
                 className="font-sans text-base sm:text-lg text-brand-muted leading-relaxed mb-12 max-w-3xl"
                 id="hero-subtitle"
               >
-                Founder-operator, not an agency. I run my own ecommerce brand, so I build for clients the way I build for myself.
+                AI systems engineer and e-commerce operator building autonomous workflows and Shopify infrastructure for high-growth brands.
               </motion.p>
 
               {/* View Case studies triggers */}
@@ -442,14 +442,14 @@ export default function App() {
             {/* Bio Text Column */}
             <div className="col-span-12 md:col-span-6 lg:col-span-4 space-y-6">
               <span className="font-sans text-xs uppercase tracking-[0.2em] font-extrabold text-brand-accent block">
-                FOUNDER-OPERATOR & BUILDER
+                AI SYSTEMS ENGINEER & E-COMMERCE OPERATOR
               </span>
               <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-brand-dark leading-tight">
                 About Zachary
               </h2>
               <div className="space-y-4 font-sans text-sm text-[#52525b] leading-relaxed">
                 <p>
-                  Zachary Ongeri is an AI product builder and ecommerce operator based in Nairobi. By day, he serves as the AI Associate at a leading Nairobi law firm, where he built the firm's entire AI and digital infrastructure from the ground up: from a regulatory intelligence SaaS platform (RegWatch) to a headless website architecture and an AI-driven content engine.
+                  Zachary Ongeri is an AI systems engineer and e-commerce operator based in Nairobi. By day, he serves as the AI Associate at a leading Nairobi law firm, where he built the firm's entire AI and digital infrastructure from the ground up: from a regulatory intelligence SaaS platform (RegWatch) to a headless website architecture and an AI-driven content engine.
                 </p>
                 <p>
                   Outside the firm, he founded and runs Nairobi Sole, a premier Kenyan sneaker ecommerce brand built on Shopify. He builds practical AI agent systems and automated workflows that make marketing, operational lead flows, and commerce run themselves.
