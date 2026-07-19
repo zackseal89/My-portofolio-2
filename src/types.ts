@@ -10,9 +10,9 @@ export interface Project {
   subtitle: string;
   description: string;
   technologies: string[];
-  liveUrl: string;
-  repoUrl: string;
-  image: string;
+  status: 'Live' | 'In Development' | 'Client Work';
+  liveUrl?: string;
+  repoUrl?: string;
 }
 
 export interface Experience {
@@ -57,6 +57,20 @@ export interface Service {
   title: string;
   description: string;
   deliverables: string[];
+}
+
+// A single essay, article, or book, sourced at build time from a
+// markdown file in src/content/writing/. See that folder's README
+// for the frontmatter format. Nothing here is hand-typed into this
+// file; add a new .md file and it appears automatically.
+export interface WritingPiece {
+  slug: string;
+  title: string;
+  type: 'Essay' | 'Article' | 'Book';
+  venue: string;
+  date: string;
+  url?: string;
+  blurb: string;
 }
 
 export interface LeadSubmission {

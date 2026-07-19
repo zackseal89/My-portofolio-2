@@ -7,3 +7,6 @@ coverage/
 .env*
 !.env.example
 .vercel
+
+# Private identity/context doc, not for a public repo
+soul.md

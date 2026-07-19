@@ -5,8 +5,8 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, ArrowRight, Check, Send, Sparkles } from 'lucide-react';
-import { createLead } from '../lib/firebase';
+import { X, Check, Send, Sparkles } from 'lucide-react';
+import { sendLeadViaMailto } from '../lib/contact';
 
 interface ContactDialogProps {
   isOpen: boolean;
@@ -27,33 +27,20 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
     if (!name || !email || !message) return;
 
     setStatus('submitting');
-    
+
     const consolidatedMessage = `Pillar: ${projectType} | Budget: ${budget}\n\nClient message: ${message}`;
-    try {
-      await createLead({
-        name,
-        email,
-        message: consolidatedMessage
-      });
-      setStatus('success');
-    } catch (error) {
-      console.error('Failed to submit via Firestore:', error);
-      try {
-        const localLeads = JSON.parse(localStorage.getItem('mock_leads') || '[]');
-        localLeads.push({
-          id: `LEAD-MOCK-${Date.now()}`,
-          name,
-          email,
-          message: consolidatedMessage,
-          timestamp: new Date().toISOString()
-        });
-        localStorage.setItem('mock_leads', JSON.stringify(localLeads));
-        setStatus('success');
-      } catch (fErr) {
-        alert('Transmission error. Please check your network connectivity and try again.');
+
+    // No backend here. This opens the visitor's own email client with the
+    // brief pre-filled and sends it directly to Zachary. Nothing touches a server.
+    setTimeout(() => {
+      const opened = sendLeadViaMailto({ name, email, message: consolidatedMessage });
+      if (!opened) {
+        alert(`Could not open your email client automatically. Please email directly instead.`);
         setStatus('idle');
+        return;
       }
-    }
+      setStatus('success');
+    }, 600);
   };
 
   const resetForm = () => {
@@ -115,16 +102,16 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
                 </div>
                 <h2 className="font-serif text-3xl font-bold tracking-tight">Transmission Transmitted</h2>
                 <p className="font-sans text-sm text-brand-muted max-w-sm leading-relaxed">
-                  Thank you, <span className="font-bold text-brand-dark">{name}</span>. Your requirements have been scanned, triaged, and written to Zachary's workspace logs. You can expect a response within minutes.
+                  Thank you, <span className="font-bold text-brand-dark">{name}</span>. Your email client should have opened with the brief pre-filled. Hit send there and it lands directly in Zachary's inbox. No database in between, just one human reading email.
                 </p>
                 <div className="space-y-2 w-full max-w-xs pt-8 border-t border-brand-dark/10 font-mono text-[10px] text-brand-muted">
                   <div className="flex justify-between">
                     <span>TRIAGE_STATUS</span>
-                    <span className="text-green-700 font-bold">QUEUED_PRIORITY_1</span>
+                    <span className="text-green-700 font-bold">DISPATCHED_TO_INBOX</span>
                   </div>
                   <div className="flex justify-between">
                     <span>ROUTING_CHANNEL</span>
-                    <span className="text-brand-dark font-medium">#sales-triage</span>
+                    <span className="text-brand-dark font-medium">mailto:</span>
                   </div>
                 </div>
                 <button

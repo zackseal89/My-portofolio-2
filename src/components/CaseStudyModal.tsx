@@ -21,7 +21,7 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
   // Simulation inputs
   // 1. Triage Lead Simulator custom inputs
   const [leadMessage, setLeadMessage] = useState('Hi Zachary, we need to automate our sales qualification on Shopify. We get 200 high-ticket leads daily but manually screen them.');
-  // 2. E-comm AOV simulator inputs
+  // 2. FORMA production run calculator inputs
   const [cartValue, setCartValue] = useState<number>(120);
   const [selectedUpsell, setSelectedUpsell] = useState<boolean>(false);
   // 3. Automated Intelligence loop inputs
@@ -51,12 +51,12 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
         '💬 AUTOMATED FEEDBACK: Sending immediate WhatsApp confirmation message reserving the slot.',
         '📈 TELEMETRY: Lead metadata logged securely in client CRM database.'
       ];
-    } else if (project.id === 'nairobi-sole') {
+    } else if (project.id === 'forma') {
       logs = [
-        '👟 STOREFRONT CART: Cart item scan: (Nairobi Sole Sneakers, $120).',
-        '💡 CROSS-SELL ENGINE: Locating matching shoe accessories from Nairobi supplier warehouse...',
-        '🖼️ CUSTOM COMPONENT: Displaying Sneaker Protective Shield add-on check box.',
-        '📈 TRANSACTION RESULT: Total Cart Value raised with 100% higher profit margins.'
+        '🧵 SUPPLIER CHECK: Verifying S-Shaper OEKO-TEX certification against order quantity.',
+        '📐 SIZING ENGINE: Mapping unit count against the East African hip-proportion fit model...',
+        '🎨 BRAND LAYER: Applying obsidian / cream / terracotta / nude palette to packaging mockup.',
+        '📊 MARGIN PROJECTION: Unit economics computed against the 100-unit MOQ floor.'
       ];
     } else {
       // mnl-advocates
@@ -290,34 +290,36 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
                     </div>
                   )}
 
-                  {project.id === 'nairobi-sole' && (
+                  {project.id === 'forma' && (
                     <div className="space-y-3">
                       <div className="space-y-1">
                         <div className="flex justify-between text-xs font-mono">
-                          <span className="text-brand-muted">Standard Sneaker Price:</span>
-                          <span className="text-brand-dark font-bold">${cartValue}</span>
+                          <span className="text-brand-muted">Production Order Quantity:</span>
+                          <span className="text-brand-dark font-bold">{cartValue} units</span>
                         </div>
                         <input
                           type="range"
-                          min="80"
-                          max="250"
+                          min="100"
+                          max="500"
+                          step="50"
                           disabled={simulationState === 'running'}
                           value={cartValue}
                           onChange={(e) => setCartValue(Number(e.target.value))}
                           className="w-full accent-brand-accent cursor-pointer bg-brand-dark/15 h-1"
                         />
+                        <p className="text-[9px] text-brand-muted font-mono">Floor set by S-Shaper's 100-unit MOQ.</p>
                       </div>
                       <div className="p-3 bg-brand-surface border border-brand-dark/10 flex items-center justify-between sharp-edge">
                         <div className="flex items-center gap-2">
                           <ShoppingBag size={14} className="text-brand-accent" />
-                          <span className="font-sans text-xs font-bold text-brand-dark">Pair Protective Sneaker Shields ($15)</span>
+                          <span className="font-sans text-xs font-bold text-brand-dark">Premium Packaging Add-on ($3/unit)</span>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
-                          <input 
-                            type="checkbox" 
+                          <input
+                            type="checkbox"
                             disabled={simulationState === 'running'}
-                            checked={selectedUpsell} 
-                            onChange={(e) => setSelectedUpsell(e.target.checked)} 
+                            checked={selectedUpsell}
+                            onChange={(e) => setSelectedUpsell(e.target.checked)}
                             className="sr-only peer"
                           />
                           <div className="w-8 h-4 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-brand-accent"></div>
@@ -402,8 +404,8 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
                         {project.id === 'whatsapp-sme-agents' && (
                           `WhatsApp Agent successfully matched client intent, queried timeslots, booked the schedule, and responded dynamically in under 30 seconds.`
                         )}
-                        {project.id === 'nairobi-sole' && (
-                          `Calculated sneaker purchase metrics. Sneaker cart increased from $${cartValue} to $${cartValue + (selectedUpsell ? 15 : 0)} with protective Sneaker Shield upsell option. Expected order-value performance raised.`
+                        {project.id === 'forma' && (
+                          `Projected a ${cartValue}-unit run against the S-Shaper MOQ floor${selectedUpsell ? ', with premium packaging added at $3/unit' : ''}. Sizing model and brand system both check out. Storefront is the only step left.`
                         )}
                         {project.id === 'mnl-advocates' && (
                           "Headless architecture page speed optimized to 0.42s. Legacy routing conflicts fully resolved. Custom SEO schema is live, ensuring elite Perplexity indexing authority."

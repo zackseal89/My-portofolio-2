@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Send, MessageSquare, X, Terminal, Check, Sparkles, Cpu, Loader, ArrowRight, User, HelpCircle } from 'lucide-react';
-import { createLead } from '../lib/firebase';
+import { Send, MessageSquare, X, Terminal, Cpu, Loader, ArrowRight } from 'lucide-react';
+import { sendLeadViaMailto } from '../lib/contact';
 
 interface ChatMessage {
   id: string;
@@ -48,28 +48,28 @@ How may I assist you with your system goals today?`
     const text = msgText.toLowerCase();
 
     if (text.includes('workflow') || text.includes('triage') || text.includes('automate') || text.includes('lead triage')) {
-      return `Zachary's **Autonomous Lead Triage Engine** is a high-volume email and inquiry router. 
+      return `Zachary's **Freelance Automation Engine** answers and qualifies SME leads over WhatsApp.
 
 Key architectural parameters:
-- **Triage Speed**: Reduced response times from 3 hours to 14 seconds (94% Acceleration).
-- **Scale**: Capable of processing 25,000+ corporate inquiries monthly.
-- **Safety**: Integrates strict prompt guardrails and validation checkpoints to prevent hallucinations.
-- **Integrations**: Connects Meta/WhatsApp API events to central CRMs and operator alerts.`;
+- **Reply Speed**: Under 30 seconds, average, from inquiry to response.
+- **Safety**: Prompt scaffolding and guardrails scoped to each client, no cross-client hallucination.
+- **Lead-Gen**: A weekly automated sweep (built on Cowork) surfaces new prospects across Kenyan and US ecommerce markets.
+- **Integrations**: WhatsApp Business API events routed to booking calendars and operator alerts.`;
     }
 
-    if (text.includes('checkout') || text.includes('shopify') || text.includes('e-commerce') || text.includes('aov') || text.includes('sole')) {
-      return `For **Nairobi Sole** and headless commerce clients, Zachary engineered a high-velocity checkout pipeline:
-- **Throughput**: Achieved a **3.5x Checkout Funnel Velocity** multiplier.
-- **Performance**: Yields sub-second load times on mobile Safari via a custom static storefront.
-- **Metrics**: AOV (Average Order Value) increased by 28%.
-- **Automation**: Supplier listings, inventory size grids, and customer dispatch routers are fully synced to custom Notion boards for lean overhead operations.`;
+    if (text.includes('checkout') || text.includes('shopify') || text.includes('e-commerce') || text.includes('forma') || text.includes('shapewear')) {
+      return `**FORMA** is Zachary's own DTC brand, built from the sourcing layer up:
+- **Supplier**: Locked to S-Shaper, OEKO-TEX certified, at a 100-unit MOQ.
+- **Sizing**: Rebuilt around East African hip proportions instead of an imported chart.
+- **Brand System**: Obsidian, cream, terracotta, and nude, designed before a single unit ships.
+- **Freelance Lane**: Separately, Zachary builds Shopify storefronts and AI chatbots for SME clients via Fiverr, Upwork, and Whop, kept deliberately apart from his legal-tech work.`;
     }
 
     if (text.includes('regwatch') || text.includes('rag') || text.includes('compliance') || text.includes('saas')) {
-      return `**RegWatch** is Zachary's flagship AI SaaS platform:
-- **Function**: Takes complex East African regulatory gazettes and generates instant, audit-ready compliance analysis.
-- **Stack**: Next.js 14, Supabase (pgvector) database, Voyage AI embeddings, and Claude API.
-- **Features**: Semantic chunking, floating cosine distance lookup, and synthesis of responses containing verifiable citations to original document pages.`;
+      return `**RegWatch** is Zachary's flagship AI SaaS platform, built inside MNL Advocates LLP:
+- **Function**: Covers CBK and ODPC jurisdiction, turning regulatory gazettes into instant, citation-backed compliance analysis.
+- **Stack**: Next.js 14, Supabase (pgvector + row-level security), Voyage AI embeddings, and Claude API.
+- **Security**: A three-role RLS model means one client's filings never surface in another client's results, by construction.`;
     }
 
     if (text.includes('hire') || text.includes('quote') || text.includes('contact') || text.includes('consult') || text.includes('brief') || text.includes('project')) {
@@ -89,11 +89,11 @@ Feel free to query me about:
     }
 
     // Default response containing suggestions
-    return `Query received. I have parsed your query parameters. 
+    return `Query received. I have parsed your query parameters.
 
 To help address your inquiry accurately, please select one of the Quick Ingress Commands below, or query me on:
 - **Zachary's AI Lead Triage Engine**
-- **Headless Shopify & 3.5x Checkout Velocity**
+- **FORMA and the freelance automation lane**
 - **RegWatch AI compliance RAG platform**
 - **Project quotes and hiring contracts**`;
   };
@@ -199,26 +199,16 @@ To help address your inquiry accurately, please select one of the Quick Ingress 
     if (!leadName || !leadEmail) return;
 
     setIsLoading(true);
-    try {
-      try {
-        await createLead({
-          name: leadName,
-          email: leadEmail,
-          message: leadMessage || "Request sent via INTEGRA-1 chat widget prompt"
-        });
-      } catch (fErr) {
-        console.warn("Firestore save failed, falling back to local storage:", fErr);
-        const localLeads = JSON.parse(localStorage.getItem('mock_leads') || '[]');
-        localLeads.push({
-          id: `MOCK-${Date.now()}`,
-          name: leadName,
-          email: leadEmail,
-          message: leadMessage,
-          timestamp: new Date().toISOString()
-        });
-        localStorage.setItem('mock_leads', JSON.stringify(localLeads));
-      }
 
+    // No backend here. This hands off to the visitor's own email client with
+    // the brief pre-filled. There is no database recording this exchange.
+    const opened = sendLeadViaMailto({
+      name: leadName,
+      email: leadEmail,
+      message: leadMessage || 'Request sent via INTEGRA-1 chat widget prompt'
+    });
+
+    if (opened) {
       setLeadSubmitted(true);
       setShowLeadForm(false);
       setMessages(prev => [
@@ -226,39 +216,34 @@ To help address your inquiry accurately, please select one of the Quick Ingress 
         {
           id: `msg-success-${Date.now()}`,
           role: 'assistant',
-          content: `✅ **[TRANSMISSION DISPATCHED // SUCCESS]** 
-          
-Thank you, **${leadName}**. Your system parameters have been successfully packaged and written to Zachary's persistent logs database. 
+          content: `✅ **[TRANSMISSION DISPATCHED // SUCCESS]**
 
-Routing Priority: **HIGH_QUEUE_PRIORITY**
-Destination: **PRIORITIZED_ROUTER_PASS**
+Thank you, **${leadName}**. Your default email client should have opened with the brief pre-filled and addressed straight to Zachary. Hit send there to complete it. No server, no database, just email.
 
-Zachary will analyze your system requirements and generate a customized technical brief shortly.`
+Zachary will read your requirements and reply personally.`
         }
       ]);
-      
+
       // Reset lead fields
       setLeadName('');
       setLeadEmail('');
       setLeadMessage('');
-    } catch (err: any) {
-      console.error(err);
+    } else {
       setMessages(prev => [
         ...prev,
         {
           id: `msg-lead-error-${Date.now()}`,
           role: 'assistant',
-          content: `⚠️ **[LEAD_ROUTING_EXCEPTION]** Handshake fault while committing lead. Please retry or mail directly to zacharyongeri121@gmail.com.`
+          content: `⚠️ **[LEAD_ROUTING_EXCEPTION]** Could not open your email client automatically. Please mail directly to zacharyongeri121@gmail.com.`
         }
       ]);
-    } finally {
-      setIsLoading(false);
     }
+    setIsLoading(false);
   };
 
   const quickPrompts = [
     "Explain Zachary's AI Lead Triage Engine",
-    "How does he achieve 3.5x checkout velocity?",
+    "What is FORMA and how is it built?",
     "Request a Project Quote // Hire Zachary",
   ];
 
