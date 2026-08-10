@@ -5,7 +5,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Play, RefreshCw, CheckCircle, ArrowRight, Sparkles, ShoppingBag, Database, ShieldAlert } from 'lucide-react';
+import { X, Play, RefreshCw, CheckCircle, Sparkles, ShoppingBag, Database } from 'lucide-react';
 import { CaseStudy } from '../types';
 
 interface CaseStudyModalProps {
@@ -19,13 +19,9 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
   const [logMessages, setLogMessages] = useState<string[]>([]);
   
   // Simulation inputs
-  // 1. Triage Lead Simulator custom inputs
-  const [leadMessage, setLeadMessage] = useState('Hi Zachary, we need to automate our sales qualification on Shopify. We get 200 high-ticket leads daily but manually screen them.');
-  // 2. FORMA production run calculator inputs
-  const [cartValue, setCartValue] = useState<number>(120);
+  const [queryInput, setQueryInput] = useState('What are the latest Central Bank of Kenya filings on digital asset compliance?');
+  const [cartValue, setCartValue] = useState<number>(100);
   const [selectedUpsell, setSelectedUpsell] = useState<boolean>(false);
-  // 3. Automated Intelligence loop inputs
-  const [supplyStock, setSupplyStock] = useState<number>(8);
 
   if (!project) return null;
 
@@ -37,34 +33,41 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
     let logs: string[] = [];
     if (project.id === 'regwatch') {
       logs = [
-        '📂 INTAKE: New Regulatory Publication (Finance Act Amendment PDF).',
-        '🧠 SEGMENTATION: Embedding chunks dynamically via Voyage AI...',
-        '📊 DB RECORD: Injecting semantic node indices into Supabase pgvector database.',
-        '🔍 COMPLIANCE AUDIT: Pre-computed vector lookup completed successfully.',
-        '✍️ GENERATOR: RAG query ready with 100% legal document bibliography citations.'
+        '📂 INTAKE: Central Bank of Kenya (CBK) & ODPC filing stream.',
+        '🧠 CHUNKING: Voyage AI semantic vector encoding initialized.',
+        '🛡️ RLS FILTER: Scoping Supabase pgvector queries via 3-role security model.',
+        '🔍 DB EXECUTION: Row-level policy enforced; isolated client space confirmed.',
+        '✍️ CLAUDE SYNTHESIS: Answer generated with 100% legal document citations.'
       ];
-    } else if (project.id === 'whatsapp-sme-agents') {
+    } else if (project.id === 'vertical-agents') {
       logs = [
-        '💬 INTAKE: Inbound WhatsApp API Text: "I want to schedule a consultation tomorrow at 2 PM."',
-        '🧠 CLASSIFICATION: Querying Google Gemini classifier module...',
-        '📅 SCHEDULE SYNCRONIZER: Checking calendar slot openings for tomorrow 14:00...',
-        '💬 AUTOMATED FEEDBACK: Sending immediate WhatsApp confirmation message reserving the slot.',
-        '📈 TELEMETRY: Lead metadata logged securely in client CRM database.'
+        '💬 INBOUND WEBHOOK: WhatsApp API message received from clinic patient / host guest.',
+        '🧠 INTENT EVALUATION: Evaluating narrow vertical domain rules & safety prompt bounds.',
+        '📅 AVAILABILITY CHECK: Querying PostgreSQL booking calendar / stock index...',
+        '💬 RESPONSE GENERATION: Sub-30-second qualified response formatted.',
+        '🤝 HANDOFF AUDIT: Confidence threshold passed (no human escalation required).'
       ];
     } else if (project.id === 'forma') {
       logs = [
-        '🧵 SUPPLIER CHECK: Verifying S-Shaper OEKO-TEX certification against order quantity.',
-        '📐 SIZING ENGINE: Mapping unit count against the East African hip-proportion fit model...',
-        '🎨 BRAND LAYER: Applying obsidian / cream / terracotta / nude palette to packaging mockup.',
-        '📊 MARGIN PROJECTION: Unit economics computed against the 100-unit MOQ floor.'
+        '🧵 SUPPLIER LOCK: S-Shaper manufacturing OEKO-TEX certification verified.',
+        '📐 SIZING REBUILD: East African hip proportion fit parameters mapped.',
+        '🎨 IDENTITY SYSTEM: Obsidian / cream / terracotta / nude palette rendering.',
+        '📊 PRODUCTION RUN: 100-unit MOQ floor & unit economics calculated.'
+      ];
+    } else if (project.id === 'naisole') {
+      logs = [
+        '🛍️ STOREFRONT INGEST: Single-system Shopify theme compilation.',
+        '📦 DATA SCHEMA: Product category taxonomy and metadata schemas bound.',
+        '⚡ RENDER SPEED: Custom Liquid & React checkout components assembled.',
+        '📈 CONVERSION PATH: Fused identity, IA, and checkout path into zero-friction flow.'
       ];
     } else {
       // mnl-advocates
       logs = [
-        '⚡ NETWORK DNS RESOLUTION: Flushing redundant host records and resolving nameserver conflicts.',
-        '⚙️ HEADLESS SCRAPER: Triggering Next.js content engine blog loop crawler.',
-        '📄 SEO INDEX: Mapping meta tag headers covers Kenyan finance bill policy.',
-        '🚀 LOAD TIME METRICS: Site speed optimized to 0.42 seconds (sub-second headless standard reached).'
+        '🌐 HEADLESS ARCHITECTURE: Decoupled WordPress CMS behind Next.js 14.',
+        '🚀 EDGE DELIVERY: Deploying static-first routes on Vercel edge network.',
+        '🔍 AEO & SEO ENGINE: Injecting Schema.org entity graphs for answer engines.',
+        '⚡ PERFORMANCE METRICS: Sub-second load time and clean crawler indexing confirmed.'
       ];
     }
 
@@ -77,7 +80,7 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
         clearInterval(interval);
         setSimulationState('completed');
       }
-    }, 900);
+    }, 850);
   };
 
   const resetSimulation = () => {
@@ -112,7 +115,7 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
           {/* Top Bar Header */}
           <div className="sticky top-0 bg-brand-bg/90 backdrop-blur-md z-20 flex justify-between items-center py-6 px-8 border-b border-brand-dark/15">
             <span className="font-mono text-xs tracking-[0.2em] uppercase font-bold text-brand-accent">
-              CASE {project.number} / {project.category}
+              SELECTED BUILD {project.number} // {project.category}
             </span>
             <button
               onClick={onClose}
@@ -143,15 +146,15 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
                 <p className="text-xs text-brand-muted mt-0.5">{project.metricLabel}</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-brand-muted font-semibold">Duration</p>
+                <p className="text-[10px] uppercase tracking-widest text-brand-muted font-semibold">Duration / Type</p>
                 <p className="text-lg font-bold text-brand-dark mt-1">{project.duration}</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-brand-muted font-semibold">Your Role</p>
+                <p className="text-[10px] uppercase tracking-widest text-brand-muted font-semibold">Role</p>
                 <p className="text-lg font-bold text-brand-dark mt-1">{project.role}</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-brand-muted font-semibold">Tech Employed</p>
+                <p className="text-[10px] uppercase tracking-widest text-brand-muted font-semibold">Stack</p>
                 <div className="flex flex-wrap gap-1 mt-1">
                   {project.technologies.slice(0, 3).map((t, idx) => (
                     <span key={idx} className="bg-brand-dark/5 text-[10px] px-1.5 py-0.5 text-brand-muted font-mono">{t}</span>
@@ -186,7 +189,7 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
                 {/* Grid Workflow Steps timeline list */}
                 <div className="space-y-4">
                   <h3 className="font-sans text-xs uppercase tracking-[0.2em] font-extrabold text-brand-dark">
-                    Workflow Sequence
+                    Execution Steps
                   </h3>
                   <div className="space-y-3">
                     {project.workflowSteps.map((step, idx) => (
@@ -213,7 +216,7 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
                   <div className="flex items-center gap-2 mb-2">
                     <Sparkles size={16} className="text-brand-accent animate-pulse" />
                     <span className="font-sans text-[11px] uppercase tracking-widest font-extrabold text-brand-dark">
-                      Interactive sandbox
+                      Interactive Architecture Sandbox
                     </span>
                   </div>
                   
@@ -221,80 +224,32 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
                     Pipeline Simulator
                   </h4>
                   <p className="text-xs text-brand-muted mt-1 leading-relaxed">
-                    Adjust inputs and run Zachary's actual automation design to watch it process in real time.
+                    Test how this system processes data and enforces architectural constraints in real time.
                   </p>
                 </div>
 
                 {/* Specific Simulator Form Inputs based on Case */}
                 <div className="py-4 border-y border-brand-dark/10 space-y-4">
-                  {project.id === 'regwatch' && (
+                  {(project.id === 'regwatch' || project.id === 'vertical-agents') && (
                     <div className="space-y-2">
                       <label className="block text-[11px] uppercase tracking-wider text-brand-muted font-bold">
-                        Semantic RAG Compliance Query:
+                        {project.id === 'regwatch' ? 'CBK / ODPC Compliance Query:' : 'Inbound Client WhatsApp Message:'}
                       </label>
                       <input
                         type="text"
                         disabled={simulationState === 'running'}
-                        value={leadMessage}
-                        onChange={(e) => setLeadMessage(e.target.value)}
+                        value={queryInput}
+                        onChange={(e) => setQueryInput(e.target.value)}
                         className="w-full text-xs p-3 bg-brand-surface border border-brand-dark/20 text-brand-dark focus:outline-none focus:border-brand-accent font-sans sharp-edge"
-                        placeholder="Type regulatory query..."
                       />
-                      <div className="flex flex-wrap gap-1">
-                        <button
-                          disabled={simulationState === 'running'}
-                          onClick={() => setLeadMessage('What are the critical changes regarding virtual assets in the new Finance Act?')}
-                          className="text-[9px] bg-brand-surface border border-brand-dark/15 px-2 py-1 text-brand-muted hover:border-brand-accent transition-colors font-sans font-bold"
-                        >
-                          Probe: Finance Act
-                        </button>
-                        <button
-                          disabled={simulationState === 'running'}
-                          onClick={() => setLeadMessage('List all compliance deadlines for corporate tax filing additions.')}
-                          className="text-[9px] bg-brand-surface border border-brand-dark/15 px-2 py-1 text-brand-muted hover:border-brand-accent transition-colors font-sans font-bold"
-                        >
-                          Probe: Filing Deadlines
-                        </button>
-                      </div>
                     </div>
                   )}
 
-                  {project.id === 'whatsapp-sme-agents' && (
-                    <div className="space-y-2">
-                      <label className="block text-[11px] uppercase tracking-wider text-brand-muted font-bold">
-                        Simulated WhatsApp Client Message:
-                      </label>
-                      <textarea
-                        disabled={simulationState === 'running'}
-                        value={leadMessage}
-                        onChange={(e) => setLeadMessage(e.target.value)}
-                        className="w-full text-xs p-3 bg-brand-surface border border-brand-dark/20 text-brand-dark placeholder-brand-muted focus:outline-none focus:border-brand-accent font-sans sharp-edge resize-none h-20"
-                        placeholder="Type standard whatsapp customer message..."
-                      />
-                      <div className="flex flex-wrap gap-1">
-                        <button
-                          disabled={simulationState === 'running'}
-                          onClick={() => setLeadMessage("Hi, I'd like to book an Airbnb reservation check-in for Friday please.")}
-                          className="text-[9px] bg-brand-surface border border-brand-dark/15 px-2 py-1 text-brand-muted hover:border-brand-accent transition-colors font-sans font-bold"
-                        >
-                          Booking Inbound
-                        </button>
-                        <button
-                          disabled={simulationState === 'running'}
-                          onClick={() => setLeadMessage("Are there shoes in size 42 available for immediate delivery in Nairobi?")}
-                          className="text-[9px] bg-brand-surface border border-brand-dark/15 px-2 py-1 text-brand-muted hover:border-brand-accent transition-colors font-sans font-bold"
-                        >
-                          Inventory Check
-                        </button>
-                      </div>
-                    </div>
-                  )}
-
-                  {project.id === 'forma' && (
+                  {(project.id === 'forma' || project.id === 'naisole') && (
                     <div className="space-y-3">
                       <div className="space-y-1">
                         <div className="flex justify-between text-xs font-mono">
-                          <span className="text-brand-muted">Production Order Quantity:</span>
+                          <span className="text-brand-muted">Production / Order Quantity:</span>
                           <span className="text-brand-dark font-bold">{cartValue} units</span>
                         </div>
                         <input
@@ -307,12 +262,14 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
                           onChange={(e) => setCartValue(Number(e.target.value))}
                           className="w-full accent-brand-accent cursor-pointer bg-brand-dark/15 h-1"
                         />
-                        <p className="text-[9px] text-brand-muted font-mono">Floor set by S-Shaper's 100-unit MOQ.</p>
+                        <p className="text-[9px] text-brand-muted font-mono">
+                          {project.id === 'forma' ? "S-Shaper OEKO-TEX 100 MOQ Floor." : "Single-system inventory scale test."}
+                        </p>
                       </div>
                       <div className="p-3 bg-brand-surface border border-brand-dark/10 flex items-center justify-between sharp-edge">
                         <div className="flex items-center gap-2">
                           <ShoppingBag size={14} className="text-brand-accent" />
-                          <span className="font-sans text-xs font-bold text-brand-dark">Premium Packaging Add-on ($3/unit)</span>
+                          <span className="font-sans text-xs font-bold text-brand-dark">Custom Packaging Add-on</span>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
@@ -331,19 +288,19 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
                   {project.id === 'mnl-advocates' && (
                     <div className="space-y-2">
                       <div className="flex justify-between items-center text-xs">
-                        <span className="text-brand-muted">Target Host records:</span>
-                        <span className="font-bold text-green-700">Healthy & Decoupled (Vite static)</span>
+                        <span className="text-brand-muted">Headless Edge Network:</span>
+                        <span className="font-bold text-green-700">Vercel Edge + Next.js 14</span>
                       </div>
                       <p className="text-xs text-brand-muted leading-relaxed font-sans">
-                        Removing redundant host routing, separational Next.js cache tuning and setting up Perplexity citation configurations.
+                        Schema.org practice area entity graphs enabled for Perplexity, ChatGPT, and Google Search crawlers.
                       </p>
                     </div>
                   )}
 
                   {/* Simulated terminal logs output screen */}
-                  <div className="bg-brand-dark text-white p-4 font-mono text-[10px] space-y-1.5 h-36 overflow-y-auto leading-relaxed border border-brand-dark/20 sharp-edge shadow-inner">
+                  <div className="bg-brand-dark text-brand-bg p-4 font-mono text-[10px] space-y-1.5 h-36 overflow-y-auto leading-relaxed border border-brand-dark/20 sharp-edge shadow-inner">
                     {logMessages.length === 0 ? (
-                      <span className="text-gray-400">⚡ Awaiting system initialization spark.</span>
+                      <span className="text-gray-400">⚡ Click Initialize Pipeline to execute system simulation.</span>
                     ) : (
                       logMessages.map((msg, idx) => (
                         <motion.div
@@ -360,7 +317,7 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
                     {simulationState === 'running' && (
                       <div className="flex items-center gap-1 text-xs text-brand-gold animate-pulse mt-2">
                         <RefreshCw size={10} className="animate-spin" />
-                        <span>PROCESSING_NODE_STEP_{simulationStep}...</span>
+                        <span>EXECUTE_STEP_{simulationStep}...</span>
                       </div>
                     )}
                   </div>
@@ -379,7 +336,7 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
                   ) : (
                     <button
                       onClick={startSimulation}
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 bg-brand-dark text-white border border-brand-dark hover:bg-brand-accent hover:border-brand-accent transition-colors duration-300 font-sans text-xs uppercase tracking-widest py-3 font-semibold sharp-edge cursor-pointer"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 bg-brand-dark text-brand-bg border border-brand-dark hover:bg-brand-accent hover:border-brand-accent transition-colors duration-300 font-sans text-xs uppercase tracking-widest py-3 font-semibold sharp-edge cursor-pointer"
                     >
                       <Play size={12} fill="white" />
                       Initialize Pipeline
@@ -387,7 +344,7 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
                   )}
                 </div>
 
-                {/* Final simulation results report (statically calculated based on inputs) */}
+                {/* Final simulation results report */}
                 {simulationState === 'completed' && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
@@ -398,18 +355,7 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
                     <div className="text-xs">
                       <p className="font-bold text-brand-dark">Execution Successful</p>
                       <p className="text-[#27272a] mt-1 leading-relaxed font-sans text-xs">
-                        {project.id === 'regwatch' && (
-                          `RegWatch RAG engine processed query: "${leadMessage}". Located exact document match inside Gazette PDF chunk 24. Generated compliant citations with complete legal citations in 0.8s.`
-                        )}
-                        {project.id === 'whatsapp-sme-agents' && (
-                          `WhatsApp Agent successfully matched client intent, queried timeslots, booked the schedule, and responded dynamically in under 30 seconds.`
-                        )}
-                        {project.id === 'forma' && (
-                          `Projected a ${cartValue}-unit run against the S-Shaper MOQ floor${selectedUpsell ? ', with premium packaging added at $3/unit' : ''}. Sizing model and brand system both check out. Storefront is the only step left.`
-                        )}
-                        {project.id === 'mnl-advocates' && (
-                          "Headless architecture page speed optimized to 0.42s. Legacy routing conflicts fully resolved. Custom SEO schema is live, ensuring elite Perplexity indexing authority."
-                        )}
+                        System constraints verified. Every line of code moves a balance-sheet metric.
                       </p>
                     </div>
                   </motion.div>
@@ -418,14 +364,13 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
 
             </div>
 
-            {/* Custom engineering summary bottom line */}
             <div className="pt-6 border-t border-brand-dark/15 flex flex-col md:flex-row justify-between items-center text-xs text-brand-muted gap-4">
               <p className="flex items-center gap-1">
                 <Database size={12} />
-                <span>Standard compliance: SHA-256 state hashing & persistent logging active.</span>
+                <span>Production Security: DB-level RLS policies & fail-closed execution.</span>
               </p>
               <p>
-                Crafted in premium architecture system frameworks.
+                Architected by Zachary Ongeri.
               </p>
             </div>
           </div>

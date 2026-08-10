@@ -3,6 +3,35 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export interface BuildDecision {
+  id: string;
+  number: string;
+  title: string;
+  summary: string;
+  quote: string;
+  rationale: string;
+}
+
+export interface AgentBuildStep {
+  stepNumber: number;
+  title: string;
+  description: string;
+}
+
+export interface EngagementShape {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  deliverables: string[];
+}
+
+export interface SprintWeek {
+  phase: string;
+  title: string;
+  description: string;
+}
+
 export interface Project {
   id: string;
   number: string;
@@ -11,6 +40,7 @@ export interface Project {
   description: string;
   technologies: string[];
   status: 'Live' | 'In Development' | 'Client Work';
+  category?: string;
   liveUrl?: string;
   repoUrl?: string;
 }
@@ -69,8 +99,11 @@ export interface WritingPiece {
   type: 'Essay' | 'Article' | 'Book';
   venue: string;
   date: string;
+  category?: string;
+  readTime?: string;
   url?: string;
   blurb: string;
+  content?: string;
 }
 
 export interface LeadSubmission {

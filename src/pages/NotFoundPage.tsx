@@ -22,7 +22,7 @@ export default function NotFoundPage() {
         <div className="pt-4">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 bg-brand-dark text-white border border-brand-dark hover:bg-brand-accent hover:border-brand-accent px-8 py-4 font-sans text-xs uppercase tracking-[0.16em] font-extrabold transition-all duration-300 sharp-edge cursor-pointer"
+            className="inline-flex items-center gap-2 bg-brand-dark text-brand-bg border border-brand-dark hover:bg-brand-accent hover:border-brand-accent px-8 py-4 font-sans text-xs uppercase tracking-[0.16em] font-extrabold transition-all duration-300 sharp-edge cursor-pointer"
           >
             Return to Home
           </Link>

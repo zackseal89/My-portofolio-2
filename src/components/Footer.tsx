@@ -8,11 +8,10 @@ import { Link } from 'react-router-dom';
 import { useUI } from '../context/UIContext';
 
 export default function Footer() {
-  const [utcTime, setUtcTime] = useState<string>('2026-06-09 20:10:57');
+  const [utcTime, setUtcTime] = useState<string>('');
   const { openContact } = useUI();
 
   useEffect(() => {
-    // Dynamic real-time UTC clock update to complement the professional precision of Zachary's work
     const timer = setInterval(() => {
       const now = new Date();
       const formatDigit = (num: number) => num.toString().padStart(2, '0');
@@ -39,9 +38,9 @@ export default function Footer() {
           <div>
             <div className="font-serif text-3xl font-bold tracking-tighter text-brand-dark mb-4 font-black">ZACHARY ONGERI</div>
             <p className="font-sans text-xs text-brand-muted/85 leading-relaxed max-w-sm">
-              © {new Date().getFullYear()} Zachary Ongeri. Systems builder across legal tech, ecommerce, and capital.<br />
+              © {new Date().getFullYear()} Zachary Ongeri. AI Native Software Developer // Agentic & LLM Systems.<br />
               <span className="font-mono text-[10px] text-brand-accent tracking-widest uppercase font-bold mt-1.5 block">
-                Built in Nairobi. Working everywhere. No backend, no bugs it can't have.
+                Nairobi, Kenya (UTC+3) // Remote with EU, US & APAC Overlap.
               </span>
             </p>
           </div>
@@ -53,7 +52,7 @@ export default function Footer() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-accent"></span>
             </span>
             <p className="font-mono text-xs text-brand-muted tracking-tight">
-              SYS_TIME: <span className="text-brand-dark font-medium">{utcTime} UTC</span>
+              SYS_TIME: <span className="text-brand-dark font-medium">{utcTime || 'SYS_ACTIVE'} UTC</span>
             </p>
           </div>
         </div>
@@ -62,10 +61,10 @@ export default function Footer() {
         <div className="col-span-12 md:col-span-6 flex flex-col justify-between items-start md:items-end gap-8" id="footer-links">
           <div className="flex flex-wrap gap-x-12 gap-y-4" id="footer-nav-menu">
             <Link
-              to="/#strategic-impact"
+              to="/#selected-builds"
               className="font-sans text-xs uppercase tracking-wider text-brand-muted hover:text-brand-dark transition-colors duration-200"
             >
-              Work
+              Builds
             </Link>
             <Link
               to="/projects"
@@ -80,10 +79,10 @@ export default function Footer() {
               Services
             </Link>
             <Link
-              to="/writing"
+              to="/about"
               className="font-sans text-xs uppercase tracking-wider text-brand-muted hover:text-brand-dark transition-colors duration-200"
             >
-              Writing
+              Build Log
             </Link>
             <button
               onClick={openContact}
@@ -95,7 +94,7 @@ export default function Footer() {
 
           <div className="flex flex-wrap gap-x-8 gap-y-4 md:text-right" id="footer-external-links">
             <a
-              href="https://www.linkedin.com/in/zacharyongeri/"
+              href="https://linkedin.com/in/zachary-ongeri-253593231"
               target="_blank"
               rel="noopener noreferrer"
               className="font-sans text-sm text-brand-muted hover:text-brand-dark transition-colors duration-200 inline-block hover:-translate-y-0.5 transition-transform"
@@ -111,18 +110,10 @@ export default function Footer() {
               GitHub
             </a>
             <a
-              href="https://read.cv"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-sans text-sm text-brand-muted hover:text-brand-dark transition-colors duration-200 inline-block hover:-translate-y-0.5 transition-transform"
-            >
-              Read.cv
-            </a>
-            <a
               href="mailto:zacharyongeri121@gmail.com"
               className="font-sans text-sm text-brand-muted hover:text-brand-dark transition-colors duration-200 inline-block hover:-translate-y-0.5 transition-transform"
             >
-              Email
+              zacharyongeri121@gmail.com
             </a>
           </div>
         </div>

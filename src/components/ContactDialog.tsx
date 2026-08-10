@@ -226,7 +226,7 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
                       <button
                         type="submit"
                         disabled={status === 'submitting' || !name || !email || !message}
-                        className="w-full flex justify-center items-center gap-2 bg-brand-dark hover:bg-brand-accent active:scale-95 disabled:opacity-50 text-white hover:text-brand-bg transition-all duration-300 font-sans text-xs uppercase tracking-widest py-4 font-semibold sharp-edge cursor-pointer"
+                        className="w-full flex justify-center items-center gap-2 bg-brand-dark hover:bg-brand-accent active:scale-95 disabled:opacity-50 text-brand-bg hover:text-brand-bg transition-all duration-300 font-sans text-xs uppercase tracking-widest py-4 font-semibold sharp-edge cursor-pointer"
                         id="contact-submit-btn"
                       >
                         {status === 'submitting' ? (

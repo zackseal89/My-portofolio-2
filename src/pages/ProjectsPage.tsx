@@ -4,14 +4,16 @@
  */
 
 import { motion } from 'motion/react';
-import { Github, ExternalLink, ShieldCheck, Layers, MessageSquareText, LucideIcon } from 'lucide-react';
+import { Github, ExternalLink, ShieldCheck, Layers, MessageSquareText, ShoppingBag, Globe, LucideIcon } from 'lucide-react';
 import { PROJECTS, CASE_STUDIES } from '../data';
 import { useUI } from '../context/UIContext';
 
 const PROJECT_ICONS: Record<string, LucideIcon> = {
   'regwatch-platform': ShieldCheck,
+  'vertical-agents': MessageSquareText,
   'forma-brand': Layers,
-  'freelance-automation': MessageSquareText,
+  'naisole-storefront': ShoppingBag,
+  'mnl-advocates-migration': Globe,
 };
 
 const STATUS_STYLES: Record<string, string> = {
@@ -20,9 +22,7 @@ const STATUS_STYLES: Record<string, string> = {
   'Client Work': 'bg-brand-dark/5 text-brand-muted border-brand-dark/10',
 };
 
-// Metric cards below pull directly from CASE_STUDIES so the numbers shown
-// here can never drift from the case study they link to.
-const METRIC_CASE_IDS = ['whatsapp-sme-agents', 'mnl-advocates'];
+const METRIC_CASE_IDS = ['vertical-agents', 'mnl-advocates'];
 
 export default function ProjectsPage() {
   const { openCaseStudy } = useUI();
@@ -37,18 +37,18 @@ export default function ProjectsPage() {
         <div className="grid grid-cols-12 gap-8 mb-16">
           <div className="col-span-12">
             <span className="font-sans text-xs uppercase tracking-[0.2em] font-extrabold text-brand-accent block mb-3">
-              REAL SYSTEMS // NO SCREENSHOTS FAKED
+              PRODUCTION BUILDS // FULL STACK INFRASTRUCTURE
             </span>
             <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-brand-dark">
-              Bespoke Projects
+              Selected Projects & Systems
             </h2>
-            <p className="font-sans text-sm text-brand-muted mt-2 max-w-lg">
-              Three lanes, run in parallel and never blended together: regulatory AI at MNL, a brand being built from the sourcing layer up, and the freelance engine that funds it all.
+            <p className="font-sans text-sm text-brand-muted mt-2 max-w-xl">
+              Retrieval systems and agents, storefronts designed as well as built, and the infrastructure underneath both. Founder operator carrying the cost of bad architecture decisions.
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {PROJECTS.map((project) => {
             const Icon = PROJECT_ICONS[project.id] ?? Layers;
             return (
@@ -62,7 +62,7 @@ export default function ProjectsPage() {
                 id={`project-card-${project.id}`}
               >
                 <div>
-                  {/* Code-generated visual panel: no fabricated product screenshots */}
+                  {/* Code-generated visual panel */}
                   <div className="relative aspect-[16/10] w-full overflow-hidden border border-brand-dark/10 mb-6 sharp-edge bg-brand-dark/[0.03] flex items-center justify-center">
                     <div
                       className="absolute inset-0 opacity-[0.08] pointer-events-none"
@@ -79,9 +79,9 @@ export default function ProjectsPage() {
 
                   {/* Text Header */}
                   <span className="font-mono text-[9px] uppercase tracking-[0.15em] font-bold text-brand-accent block mb-2">
-                    {project.subtitle}
+                    {project.category || 'Production System'}
                   </span>
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-brand-dark mb-4 group-hover:text-brand-accent transition-colors">
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-brand-dark mb-3 group-hover:text-brand-accent transition-colors">
                     {project.title}
                   </h3>
                   <p className="font-sans text-xs text-brand-muted leading-relaxed mb-6">
@@ -103,35 +103,30 @@ export default function ProjectsPage() {
                     ))}
                   </div>
 
-                  {/* Actions Links with source/live icons, only rendered when real */}
-                  {(project.liveUrl || project.repoUrl) && (
-                    <div className="flex items-center gap-4">
-                      {project.liveUrl && (
-                        <a
-                          href={project.liveUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 border border-brand-dark text-[10px] uppercase tracking-[0.12em] font-extrabold text-brand-dark hover:bg-brand-dark hover:text-white transition-all duration-300 sharp-edge cursor-pointer"
-                          id={`project-live-${project.id}`}
-                        >
-                          <ExternalLink size={11} />
-                          <span>Live Demo</span>
-                        </a>
-                      )}
-                      {project.repoUrl && (
-                        <a
-                          href={project.repoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 border border-brand-dark/15 text-[10px] uppercase tracking-[0.12em] font-extrabold text-brand-muted hover:border-brand-dark hover:text-brand-dark transition-all duration-300 sharp-edge bg-brand-bg/20 cursor-pointer"
-                          id={`project-repo-${project.id}`}
-                        >
-                          <Github size={11} />
-                          <span>Source Code</span>
-                        </a>
-                      )}
-                    </div>
-                  )}
+                  {/* Actions Links */}
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => {
+                        const caseId = project.id.replace('-platform', '').replace('-storefront', '').replace('-migration', '').replace('-brand', '');
+                        openCaseStudy(caseId === 'vertical' ? 'vertical-agents' : caseId);
+                      }}
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 border border-brand-dark text-[10px] uppercase tracking-[0.12em] font-extrabold text-brand-dark hover:bg-brand-dark hover:text-brand-bg transition-all duration-300 sharp-edge cursor-pointer"
+                      id={`project-case-${project.id}`}
+                    >
+                      <span>System Architecture &rarr;</span>
+                    </button>
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center p-2.5 border border-brand-dark/20 text-brand-dark hover:border-brand-accent hover:text-brand-accent transition-colors sharp-edge"
+                        title="Live Link"
+                      >
+                        <ExternalLink size={12} />
+                      </a>
+                    )}
+                  </div>
                 </div>
               </motion.div>
             );
@@ -139,7 +134,7 @@ export default function ProjectsPage() {
         </div>
       </section>
 
-      {/* METRICS & CONTEXTUAL WORKSPACE IMAGE SECTION */}
+      {/* METRICS & CONTEXTUAL WORKSPACE SECTION */}
       <section
         className="py-24 md:py-32 px-6 md:px-12 w-full max-w-7xl mx-auto border-t border-brand-dark/15"
         id="scale"
@@ -151,18 +146,18 @@ export default function ProjectsPage() {
 
             <div className="space-y-4">
               <span className="font-sans text-[11px] uppercase tracking-[0.2em] font-extrabold text-brand-accent block">
-                SYSTEM CORE PHILOSOPHY
+                CORE OPERATING PRINCIPLE
               </span>
               <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-brand-dark leading-tight">
-                Built for scale, designed for clarity.
+                Built for scale, designed for legibility.
               </h2>
             </div>
 
             <p className="font-sans text-base md:text-lg text-brand-muted leading-relaxed">
-              The vertical is interchangeable. The instinct to systematize is not. Every line of code, every supplier contract, and every trade thesis gets the same treatment: find the structure, then trust it under pressure.
+              Every line of code should move a balance sheet number. If it does not cut cost or raise transaction value, it is clutter.
             </p>
 
-            {/* Statistical dynamic highlight grid, pulled straight from the case studies below */}
+            {/* Statistical dynamic highlight grid */}
             <div className="grid grid-cols-2 gap-4">
               {METRIC_CASE_IDS.map((id) => {
                 const study = CASE_STUDIES.find((s) => s.id === id);
@@ -179,7 +174,7 @@ export default function ProjectsPage() {
                       {study.metricLabel}
                     </p>
                     <p className="font-sans text-[9px] text-brand-accent mt-1 flex items-center gap-0.5">
-                      View {study.title} Case
+                      View Architecture &rarr;
                     </p>
                   </div>
                 );
@@ -188,7 +183,7 @@ export default function ProjectsPage() {
 
           </div>
 
-          {/* Right side high-resolution tablet workspace image frame */}
+          {/* Right side workspace image frame */}
           <div className="col-span-12 lg:col-span-6 lg:col-start-7 order-1 lg:order-2 flex justify-center lg:justify-end">
             <motion.div
               initial={{ opacity: 0, x: 20 }}
@@ -201,11 +196,10 @@ export default function ProjectsPage() {
               <img
                 className="w-full h-full object-cover grayscale brightness-95 select-none pointer-events-none group-hover:grayscale-0 transition-all duration-[1200ms]"
                 src="/assets/workspace.png"
-                alt="Minimalist designer desk workspace featuring mechanical hardware & technical draft designs."
+                alt="Workspace layout"
               />
               <div className="absolute inset-0 bg-brand-dark/5 pointer-events-none" />
 
-              {/* Diagonal floating banner */}
               <div className="absolute top-8 left-8 bg-brand-dark text-brand-bg px-4 py-2 font-mono text-[9px] uppercase tracking-[0.2em] sharp-edge border border-brand-accent">
                 TECHNICAL CRAFTSMANSHIP
               </div>

@@ -5,9 +5,8 @@
 
 import { WritingPiece } from '../types';
 
-// Every .md file in src/content/writing/ becomes a card on the Writing page.
-// This runs at build time (Vite's import.meta.glob), so there is still no
-// backend and no database: adding a piece means adding a file and redeploying.
+// Every .md file in src/content/writing/ becomes an article/essay.
+// This runs at build time via Vite's import.meta.glob (zero backend, zero database).
 const files = import.meta.glob('../content/writing/*.md', {
   eager: true,
   query: '?raw',
@@ -44,21 +43,32 @@ export function loadWritingPieces(): WritingPiece[] {
     if (path.toLowerCase().endsWith('readme.md')) continue;
 
     const { data, body } = parseFrontmatter(files[path]);
-    if (!data.title) continue; // not a real piece, skip silently
+    if (!data.title) continue;
 
     const slug = path.split('/').pop()?.replace(/\.md$/, '') ?? path;
     const type = VALID_TYPES.includes(data.type as WritingPiece['type'])
       ? (data.type as WritingPiece['type'])
-      : 'Essay';
+      : 'Article';
+
+    // First paragraph as blurb summary if not specified
+    const paragraphs = body.split('\n\n');
+    const blurb = data.summary || data.blurb || paragraphs[0] || '';
+
+    // Calculate reading time roughly (200 wpm)
+    const wordCount = body.split(/\s+/).length;
+    const calculatedReadTime = `${Math.max(1, Math.ceil(wordCount / 200))} min read`;
 
     pieces.push({
       slug,
       title: data.title,
       type,
-      venue: data.venue || '',
+      venue: data.venue || 'Zachary Ongeri',
       date: data.date || '',
+      category: data.category || 'Architecture',
+      readTime: data.readTime || calculatedReadTime,
       url: data.url || undefined,
-      blurb: body,
+      blurb,
+      content: body,
     });
   }
 

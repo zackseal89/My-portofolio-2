@@ -3,15 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { UIProvider } from './context/UIContext';
 import RootLayout from './layouts/RootLayout';
 import HomePage from './pages/HomePage';
-import ProjectsPage from './pages/ProjectsPage';
-import AboutPage from './pages/AboutPage';
-import ServicesPage from './pages/ServicesPage';
-import WritingPage from './pages/WritingPage';
-import ContactPage from './pages/ContactPage';
+import ArticlePage from './pages/ArticlePage';
 import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
@@ -21,11 +17,13 @@ export default function App() {
         <Routes>
           <Route element={<RootLayout />}>
             <Route index element={<HomePage />} />
-            <Route path="projects" element={<ProjectsPage />} />
-            <Route path="about" element={<AboutPage />} />
-            <Route path="services" element={<ServicesPage />} />
-            <Route path="writing" element={<WritingPage />} />
-            <Route path="contact" element={<ContactPage />} />
+            {/* Streamlined single-page routing: smooth redirects to main canvas sections */}
+            <Route path="projects" element={<HomePage anchor="builds" />} />
+            <Route path="about" element={<HomePage anchor="about" />} />
+            <Route path="services" element={<HomePage anchor="method" />} />
+            <Route path="writing" element={<HomePage anchor="writing" />} />
+            <Route path="writing/:slug" element={<ArticlePage />} />
+            <Route path="contact" element={<HomePage anchor="contact" />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

@@ -28,8 +28,6 @@ export default function ContactPage() {
         setActiveStepIndex(idx + 1);
         if (idx === intervals.length - 1) {
           setStatus('complete');
-          // This is the moment it actually leaves the browser: opens the visitor's
-          // own email client, addressed to Zachary. There is no server in between.
           sendLeadViaMailto({ name, email, message });
         }
       }, delay);
@@ -61,7 +59,7 @@ export default function ContactPage() {
             <motion.div
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="p-8 border border-brand-dark bg-white sharp-edge flex flex-col items-center justify-center text-center space-y-4"
+              className="p-8 border border-brand-dark bg-brand-surface sharp-edge flex flex-col items-center justify-center text-center space-y-4"
               id="contact-form-success"
             >
               <div className="h-12 w-12 rounded-full border border-brand-dark flex items-center justify-center bg-brand-bg text-brand-dark animate-pulse">
@@ -81,14 +79,14 @@ export default function ContactPage() {
                   setMessage('');
                   setActiveStepIndex(-1);
                 }}
-                className="font-sans text-[10px] uppercase tracking-widest font-bold border border-brand-dark px-6 py-2 hover:bg-brand-dark hover:text-white transition-colors cursor-pointer sharp-edge"
+                className="font-sans text-[10px] uppercase tracking-widest font-bold border border-brand-dark px-6 py-2 hover:bg-brand-dark hover:text-brand-bg transition-colors cursor-pointer sharp-edge"
               >
                 Send Another Transmission
               </button>
             </motion.div>
           ) : status === 'analyzing' ? (
-            <div className="p-8 border border-brand-dark bg-brand-dark text-[#a3a3a3] font-mono text-xs space-y-4 sharp-edge" id="contact-form-loading">
-              <div className="flex items-center justify-between border-b border-neutral-850 pb-2.5">
+            <div className="p-8 border border-brand-dark bg-[#0B0C0E] text-[#a3a3a3] font-mono text-xs space-y-4 sharp-edge" id="contact-form-loading">
+              <div className="flex items-center justify-between border-b border-neutral-800 pb-2.5">
                 <span className="text-white flex items-center gap-1.5 font-bold uppercase text-[9px] tracking-wider">
                   <Terminal size={11} className="text-mono animate-pulse text-brand-bg" />
                   Zachary Node Router // Ingress Pipeline
@@ -136,7 +134,7 @@ export default function ContactPage() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. Liam O'Connor"
-                    className="p-3 bg-white border border-brand-dark/15 hover:border-brand-dark focus:border-brand-dark focus:outline-none focus:ring-1 focus:ring-brand-dark transition-colors text-xs font-sans sharp-edge text-brand-dark"
+                    className="p-3 bg-brand-surface border border-brand-dark/15 hover:border-brand-dark focus:border-brand-dark focus:outline-none focus:ring-1 focus:ring-brand-dark transition-colors text-xs font-sans sharp-edge text-brand-dark"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
@@ -150,7 +148,7 @@ export default function ContactPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="email@organization.co"
-                    className="p-3 bg-white border border-brand-dark/15 hover:border-brand-dark focus:border-brand-dark focus:outline-none focus:ring-1 focus:ring-brand-dark transition-colors text-xs font-sans sharp-edge text-brand-dark"
+                    className="p-3 bg-brand-surface border border-brand-dark/15 hover:border-brand-dark focus:border-brand-dark focus:outline-none focus:ring-1 focus:ring-brand-dark transition-colors text-xs font-sans sharp-edge text-brand-dark"
                   />
                 </div>
               </div>
@@ -166,13 +164,13 @@ export default function ContactPage() {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Describe your workflow challenges, custom e-commerce requirements, or API integration specifications..."
-                  className="p-3 bg-white border border-brand-dark/15 hover:border-brand-dark focus:border-brand-dark focus:outline-none focus:ring-1 focus:ring-brand-dark transition-colors text-xs font-sans sharp-edge text-brand-dark resize-none"
+                  className="p-3 bg-brand-surface border border-brand-dark/15 hover:border-brand-dark focus:border-brand-dark focus:outline-none focus:ring-1 focus:ring-brand-dark transition-colors text-xs font-sans sharp-edge text-brand-dark resize-none"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-brand-dark text-white border border-brand-dark hover:bg-brand-accent hover:border-brand-accent py-4 font-sans text-xs uppercase tracking-[0.15em] font-extrabold transition-all duration-300 sharp-edge cursor-pointer"
+                className="w-full bg-brand-dark text-brand-bg border border-brand-dark hover:bg-brand-accent hover:border-brand-accent py-4 font-sans text-xs uppercase tracking-[0.15em] font-extrabold transition-all duration-300 sharp-edge cursor-pointer"
                 id="onpage-form-submit-btn"
               >
                 Commit Transmission Payload &rarr;
@@ -183,7 +181,7 @@ export default function ContactPage() {
 
         {/* Alternates and Networks Column */}
         <div className="col-span-12 lg:col-span-5 flex flex-col justify-between">
-          <div className="border border-brand-dark p-6 md:p-8 bg-white sharp-edge relative space-y-8">
+          <div className="border border-brand-dark p-6 md:p-8 bg-brand-surface sharp-edge relative space-y-8">
             <div>
               <span className="font-mono text-[9px] uppercase tracking-widest text-brand-muted block mb-3">
                 ALTERNATE COMMS DIRECTORY
@@ -196,13 +194,12 @@ export default function ContactPage() {
               </p>
             </div>
 
-            {/* Highly readable mail badge */}
             <a
               href="mailto:zacharyongeri121@gmail.com"
               className="flex items-center gap-4 p-4 border border-brand-dark/10 hover:border-brand-dark bg-brand-bg/30 hover:bg-brand-surface transition-all duration-300 sharp-edge"
               id="direct-email-card"
             >
-              <div className="h-10 w-10 border border-brand-dark/10 rounded-full flex items-center justify-center bg-white text-brand-accent">
+              <div className="h-10 w-10 border border-brand-dark/10 rounded-full flex items-center justify-center bg-brand-surface text-brand-accent">
                 <Mail size={16} />
               </div>
               <div>
@@ -211,48 +208,36 @@ export default function ContactPage() {
               </div>
             </a>
 
-            {/* Professional Social Media Profile Grid */}
             <div className="space-y-4">
               <span className="font-mono text-[9px] uppercase tracking-[0.15em] text-brand-muted block">
                 PROFESSIONAL PUBLIC DIRECTORIES
               </span>
 
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 gap-3">
                 <a
-                  href="https://www.linkedin.com/in/zacharyongeri/"
+                  href="https://linkedin.com/in/zachary-ongeri-253593231"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-4 border border-brand-dark/10 hover:border-brand-dark bg-brand-surface hover:bg-brand-dark hover:text-white flex flex-col items-center justify-center text-center gap-2 transition-all duration-300 sharp-edge group"
+                  className="p-4 border border-brand-dark/10 hover:border-brand-dark bg-brand-surface hover:bg-brand-dark hover:text-brand-bg flex flex-col items-center justify-center text-center gap-2 transition-all duration-300 sharp-edge group"
                   id="linkedin-profile-link"
                 >
-                  <Linkedin size={16} className="text-brand-accent group-hover:text-white transition-colors" />
+                  <Linkedin size={16} className="text-brand-accent group-hover:text-brand-bg transition-colors" />
                   <span className="font-sans text-[10px] uppercase tracking-wide font-black">LinkedIn</span>
                 </a>
                 <a
                   href="https://github.com/zacharyongeri"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-4 border border-brand-dark/10 hover:border-brand-dark bg-brand-surface hover:bg-brand-dark hover:text-white flex flex-col items-center justify-center text-center gap-2 transition-all duration-300 sharp-edge group"
+                  className="p-4 border border-brand-dark/10 hover:border-brand-dark bg-brand-surface hover:bg-brand-dark hover:text-brand-bg flex flex-col items-center justify-center text-center gap-2 transition-all duration-300 sharp-edge group"
                   id="github-profile-link"
                 >
-                  <Github size={16} className="text-brand-accent group-hover:text-white transition-colors" />
+                  <Github size={16} className="text-brand-accent group-hover:text-brand-bg transition-colors" />
                   <span className="font-sans text-[10px] uppercase tracking-wide font-black">GitHub</span>
-                </a>
-                <a
-                  href="https://read.cv/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-4 border border-brand-dark/10 hover:border-brand-dark bg-brand-surface hover:bg-brand-dark hover:text-white flex flex-col items-center justify-center text-center gap-2 transition-all duration-300 sharp-edge group"
-                  id="readcv-profile-link"
-                >
-                  <Compass size={16} className="text-brand-accent group-hover:text-white transition-colors" />
-                  <span className="font-sans text-[10px] uppercase tracking-wide font-black">Read.cv</span>
                 </a>
               </div>
             </div>
 
-            {/* Location metadata display */}
-            <div className="pt-4 border-t border-brand-dark/10 flex items-center justify-between text-[10px] font-mono text-zinc-400">
+            <div className="pt-4 border-t border-brand-dark/10 flex items-center justify-between text-[10px] font-mono text-brand-muted">
               <span>NO_BACKEND: CONFIRMED</span>
               <span>MAIL_ROUTE: DIRECT</span>
             </div>

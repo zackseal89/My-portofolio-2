@@ -18,10 +18,10 @@ export default function AIChatbot() {
       role: 'assistant',
       content: `Greetings. I am **INTEGRA-1**, system liaison for Zachary Ongeri. 
 
-I coordinate communication routing and project specification processing. I can answer inquiries regarding:
-- Zachary's custom autonomous lead pipelines
-- Sub-second headless e-commerce architectures
-- Enterprise integration of secure generative AI systems
+I coordinate project specifications and architecture inquiries. I can answer questions regarding:
+- **Selected Builds**: RegWatch, Vertical AI Agents, FORMA, Naisole, MNL Advocates
+- **Build Log & Method**: 5-step agent delivery framework & Postgres RLS tenant security
+- **Engagement Shapes**: Build Sprint (6-week blueprint), System Audit, Retained Build
 
 How may I assist you with your system goals today?`
     }
@@ -47,62 +47,88 @@ How may I assist you with your system goals today?`
   const generateMockReply = (msgText: string): string => {
     const text = msgText.toLowerCase();
 
-    if (text.includes('workflow') || text.includes('triage') || text.includes('automate') || text.includes('lead triage')) {
-      return `Zachary's **Freelance Automation Engine** answers and qualifies SME leads over WhatsApp.
+    if (text.includes('agent') || text.includes('build an agent') || text.includes('method') || text.includes('step')) {
+      return `Zachary's **5-Step Agent Delivery Blueprint**:
 
-Key architectural parameters:
-- **Reply Speed**: Under 30 seconds, average, from inquiry to response.
-- **Safety**: Prompt scaffolding and guardrails scoped to each client, no cross-client hallucination.
-- **Lead-Gen**: A weekly automated sweep (built on Cowork) surfaces new prospects across Kenyan and US ecommerce markets.
-- **Integrations**: WhatsApp Business API events routed to booking calendars and operator alerts.`;
+1. **Study Real Messages**: Read a hundred real customer messages before writing any prompts or code.
+2. **Narrow Scope & Handoff**: Define the single job and the exact point where thread control transfers to a human operator.
+3. **Retrieval Before Personality**: Build retrieval infrastructure first. Wrong facts in a friendly voice are worse than no agent.
+4. **Automated Failure Tests**: Write failure cases as automated tests and run them on every system prompt update.
+5. **Ship Single-Channel**: Measure human handoff rate, and only widen agent scope once handoff rates drop.`;
     }
 
-    if (text.includes('checkout') || text.includes('shopify') || text.includes('e-commerce') || text.includes('forma') || text.includes('shapewear')) {
-      return `**FORMA** is Zachary's own DTC brand, built from the sourcing layer up:
-- **Supplier**: Locked to S-Shaper, OEKO-TEX certified, at a 100-unit MOQ.
-- **Sizing**: Rebuilt around East African hip proportions instead of an imported chart.
-- **Brand System**: Obsidian, cream, terracotta, and nude, designed before a single unit ships.
-- **Freelance Lane**: Separately, Zachary builds Shopify storefronts and AI chatbots for SME clients via Fiverr, Upwork, and Whop, kept deliberately apart from his legal-tech work.`;
+    if (text.includes('regwatch') || text.includes('rag') || text.includes('compliance') || text.includes('cbk') || text.includes('odpc')) {
+      return `**RegWatch (Flagship RAG SaaS Platform)**:
+- **Built inside**: MNL Advocates LLP for CBK and ODPC filings.
+- **Full Retrieval Pipeline**: Voyage AI embeddings, Supabase pgvector, Next.js 14 application layer.
+- **Data Security**: Three-role Postgres Row Level Security (RLS) model. Isolation sits in Postgres policies rather than application code, so security fails closed.`;
     }
 
-    if (text.includes('regwatch') || text.includes('rag') || text.includes('compliance') || text.includes('saas')) {
-      return `**RegWatch** is Zachary's flagship AI SaaS platform, built inside MNL Advocates LLP:
-- **Function**: Covers CBK and ODPC jurisdiction, turning regulatory gazettes into instant, citation-backed compliance analysis.
-- **Stack**: Next.js 14, Supabase (pgvector + row-level security), Voyage AI embeddings, and Claude API.
-- **Security**: A three-role RLS model means one client's filings never surface in another client's results, by construction.`;
+    if (text.includes('vertical') || text.includes('whatsapp') || text.includes('clinic') || text.includes('dealership') || text.includes('host')) {
+      return `**Vertical AI Agents (Kenya & US Markets)**:
+- **Inbound Speed**: Qualifies leads and answers enquiries in **under 30 seconds**.
+- **Scope**: Narrowly built for clinics (triage), dealerships (stock & finance), and short-stay hosts (booking).
+- **Integrations**: Meta WhatsApp Business API & Anthropic Claude API with automatic escalation to human operators.`;
     }
 
-    if (text.includes('hire') || text.includes('quote') || text.includes('contact') || text.includes('consult') || text.includes('brief') || text.includes('project')) {
-      return `Understood. I am launching the **System Parameters Brief Form** directly in the chat terminal window below. 
+    if (text.includes('forma') || text.includes('naisole') || text.includes('shopify') || text.includes('ecommerce') || text.includes('sourcing')) {
+      return `**Ecommerce Builds (Design Through Build)**:
+- **FORMA**: DTC apparel brand built from the sourcing layer up. Supplier locked to S-Shaper (OEKO-TEX, 100 MOQ), sizing rebuilt for East African body proportions, plus identity system and Shopify storefront.
+- **Naisole**: Shopify storefront designed & built end-to-end (identity, IA, product schema, conversion UX as one system).
+- **Core Philosophy**: Supply chain is part of the software. Fixing sizing & supplier constraints upfront prevents costly returns later.`;
+    }
 
-Please supply your name, email, and a summary of your integration goals to queue a priority audit session on Zachary's terminal.`;
+    if (text.includes('mnl') || text.includes('headless') || text.includes('seo') || text.includes('aeo') || text.includes('wordpress')) {
+      return `**MNL Advocates LLP Platform Migration**:
+- **Stack**: Decoupled WordPress CMS + Next.js 14 front end on Vercel edge network.
+- **Search & AEO**: Structured practice areas as entity graphs (Schema.org) so content reads cleanly to AI answer engines (Perplexity, ChatGPT, Gemini) as well as crawlers.
+- **Event Operations**: Operational scaffolding and briefing document pipelines for Africa Leadership Circle (Nairobi summit & Benin breakfast in Cotonou).`;
+    }
+
+    if (text.includes('sprint') || text.includes('engagement') || text.includes('audit') || text.includes('retainer') || text.includes('how a build sprint runs')) {
+      return `**Engagement Shapes & Build Sprint Timeline**:
+
+**Shapes**:
+1. **Build Sprint**: Fixed product/storefront taken from zero to live in 6 weeks.
+2. **System Audit**: Comprehensive read of stack, search visibility, and uncosted manual steps.
+3. **Retained Build**: Ongoing technical direction and engineering ownership.
+
+**6-Week Sprint Blueprint**:
+- **Week 01 (Define)**: Commercial outcome agreed as a number.
+- **Week 02–05 (Build)**: Working software delivered weekly with real data.
+- **Week 06 (Hand Over)**: Deployment, tracking, and written documentation.`;
+    }
+
+    if (text.includes('location') || text.includes('available') || text.includes('education') || text.includes('contact') || text.includes('email') || text.includes('hire') || text.includes('quote')) {
+      return `**Zachary Ongeri Key Details**:
+- **Location**: Nairobi, Kenya (UTC+3, remote). Overlap held open for European, United States, and Asia Pacific working hours.
+- **Education**: University of Nairobi.
+- **Direct Email**: zacharyongeri121@gmail.com
+- **LinkedIn**: linkedin.com/in/zachary-ongeri-253593231
+
+*To send a direct brief, please click "Request a Project Quote // Hire Zachary" or fill out the inline form below.*`;
     }
 
     if (text.includes('hello') || text.includes('hi') || text.includes('hey') || text.includes('greetings')) {
-      return `Greetings. I am **INTEGRA-1**, Zachary's systems liaison. How can I assist you with your digital or AI architectural goals today? 
+      return `Greetings. I am **INTEGRA-1**, Zachary's systems liaison. How can I assist you with your engineering or AI architectural goals today? 
 
 Feel free to query me about:
-- **AI Agent Lead Triage Workflows**
-- **Sub-second Headless E-Commerce**
-- **RegWatch AI SaaS Platform**
-- **Direct quote/project inquiries**`;
+- **5-Step Agent Delivery Blueprint**
+- **RegWatch RAG SaaS Platform**
+- **Vertical AI WhatsApp Agents**
+- **6-Week Build Sprint Framework**`;
     }
 
-    // Default response containing suggestions
-    return `Query received. I have parsed your query parameters.
-
-To help address your inquiry accurately, please select one of the Quick Ingress Commands below, or query me on:
-- **Zachary's AI Lead Triage Engine**
-- **FORMA and the freelance automation lane**
-- **RegWatch AI compliance RAG platform**
-- **Project quotes and hiring contracts**`;
+    return `Query parsed. To help address your inquiry accurately, feel free to ask about:
+- **Zachary's Selected Builds** (RegWatch, Vertical Agents, FORMA, Naisole, MNL)
+- **5-Step Agent Delivery Blueprint**
+- **6-Week Build Sprint & Engagement Shapes**
+- **Direct hiring / project quotes**`;
   };
 
   const sendMessageToApi = async (msgText: string, updatedHistory: ChatMessage[]) => {
     setIsLoading(true);
-    
-    // Simulate small latency for premium terminal feel
-    await new Promise(resolve => setTimeout(resolve, 800));
+    await new Promise(resolve => setTimeout(resolve, 750));
 
     try {
       const replyText = generateMockReply(msgText);
@@ -121,9 +147,7 @@ To help address your inquiry accurately, please select one of the Quick Ingress 
         {
           id: `msg-${Date.now()}-error`,
           role: 'assistant',
-          content: `⚠️ **[SYSTEM EXCEPTION_ROUTING_ERROR]** Failed to execute secure handshake. 
-
-*Details: Connection timeout. Please verify your network state or contact Zachary directly at zacharyongeri121@gmail.com.*`
+          content: `⚠️ **[SYSTEM EXCEPTION]** Connection error. Please email Zachary directly at zacharyongeri121@gmail.com.`
         }
       ]);
     } finally {
@@ -147,8 +171,7 @@ To help address your inquiry accurately, please select one of the Quick Ingress 
     const newHistory = [...messages, newMsg];
     setMessages(newHistory);
 
-    // If they say or ask for quote / hire / consult, trigger lead form inline
-    const isHireIntent = /hire|quote|consult|contract|project|brief|contact/i.test(userMessageText);
+    const isHireIntent = /hire|quote|consult|contract|project|brief|audit/i.test(userMessageText);
     
     if (isHireIntent) {
       setMessages(prev => [
@@ -156,7 +179,7 @@ To help address your inquiry accurately, please select one of the Quick Ingress 
         {
           id: `msg-form-${Date.now()}`,
           role: 'assistant',
-          content: `Processing specification request... For automated high-priority routing, please complete this secure brief transmission checklist:`
+          content: `Preparing system brief form... Please complete your contact details below to queue a priority audit on Zachary's terminal:`
         }
       ]);
       setShowLeadForm(true);
@@ -184,7 +207,7 @@ To help address your inquiry accurately, please select one of the Quick Ingress 
         {
           id: `msg-form-trigger-${Date.now()}`,
           role: 'assistant',
-          content: `Preparing integration brief. Complete the parameters below to establish high-confidence routing to Zachary's primary logs pager:`
+          content: `Preparing brief form... Complete your details to establish high-confidence routing:`
         }
       ]);
       setShowLeadForm(true);
@@ -200,12 +223,10 @@ To help address your inquiry accurately, please select one of the Quick Ingress 
 
     setIsLoading(true);
 
-    // No backend here. This hands off to the visitor's own email client with
-    // the brief pre-filled. There is no database recording this exchange.
     const opened = sendLeadViaMailto({
       name: leadName,
       email: leadEmail,
-      message: leadMessage || 'Request sent via INTEGRA-1 chat widget prompt'
+      message: leadMessage || 'Request sent via INTEGRA-1 chat widget'
     });
 
     if (opened) {
@@ -216,15 +237,12 @@ To help address your inquiry accurately, please select one of the Quick Ingress 
         {
           id: `msg-success-${Date.now()}`,
           role: 'assistant',
-          content: `✅ **[TRANSMISSION DISPATCHED // SUCCESS]**
+          content: `✅ **[TRANSMISSION DISPATCHED]**
 
-Thank you, **${leadName}**. Your default email client should have opened with the brief pre-filled and addressed straight to Zachary. Hit send there to complete it. No server, no database, just email.
-
-Zachary will read your requirements and reply personally.`
+Thank you, **${leadName}**. Your email client has opened pre-filled straight to zacharyongeri121@gmail.com. Hit send to transmit.`
         }
       ]);
 
-      // Reset lead fields
       setLeadName('');
       setLeadEmail('');
       setLeadMessage('');
@@ -234,7 +252,7 @@ Zachary will read your requirements and reply personally.`
         {
           id: `msg-lead-error-${Date.now()}`,
           role: 'assistant',
-          content: `⚠️ **[LEAD_ROUTING_EXCEPTION]** Could not open your email client automatically. Please mail directly to zacharyongeri121@gmail.com.`
+          content: `⚠️ Could not open email client automatically. Please write to zacharyongeri121@gmail.com directly.`
         }
       ]);
     }
@@ -242,9 +260,10 @@ Zachary will read your requirements and reply personally.`
   };
 
   const quickPrompts = [
-    "Explain Zachary's AI Lead Triage Engine",
-    "What is FORMA and how is it built?",
-    "Request a Project Quote // Hire Zachary",
+    "Explain Zachary's 5-Step Agent Blueprint",
+    "What is RegWatch and how is it built?",
+    "How does a 6-Week Build Sprint run?",
+    "Request a Project Quote // Hire Zachary"
   ];
 
   return (
@@ -256,10 +275,10 @@ Zachary will read your requirements and reply personally.`
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 35, scale: 0.95 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="w-[360px] sm:w-[410px] h-[550px] bg-brand-bg/95 backdrop-blur-md border border-brand-dark shadow-2xl relative flex flex-col justify-between sharp-edge"
+            className="w-[360px] sm:w-[420px] h-[580px] bg-brand-bg/95 backdrop-blur-md border border-brand-dark shadow-2xl relative flex flex-col justify-between sharp-edge"
             id="chatbot-terminal-panel"
           >
-            {/* Minimal Grid Header Background Pattern */}
+            {/* Background Pattern */}
             <div className="absolute inset-0 max-h-[60px] opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#121212 1px, transparent 0)', backgroundSize: '8px 8px' }} />
 
             {/* Panel Header */}
@@ -291,7 +310,7 @@ Zachary will read your requirements and reply personally.`
               className="flex-1 overflow-y-auto px-5 py-6 space-y-5 bg-brand-bg/20"
               id="chatbot-messages-container"
             >
-              {messages.map((msg, idx) => (
+              {messages.map((msg) => (
                 <div
                   key={msg.id}
                   className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
@@ -306,28 +325,25 @@ Zachary will read your requirements and reply personally.`
                     <div 
                       className={`p-4 border text-[11.5px] leading-relaxed sharp-edge relative ${
                         msg.role === 'user' 
-                          ? 'bg-brand-dark text-white border-brand-dark shadow-sm' 
+                          ? 'bg-brand-dark text-brand-bg border-brand-dark shadow-sm'
                           : 'bg-white text-zinc-800 border-brand-dark/10 shadow-sm'
                       }`}
                     >
-                      {/* Markdown simple renderer for bold/lists */}
                       <div className="space-y-1.5 whitespace-pre-wrap font-sans">
                         {msg.content.split('\n').map((line, lIdx) => {
                           let processed = line;
-                          // Bold match **text**
                           if (processed.includes('**')) {
                             const parts = processed.split('**');
                             return (
                               <p key={lIdx}>
-                                {parts.map((p, pIdx) => pIdx % 2 === 1 ? <strong key={pIdx} className={msg.role === 'user' ? 'text-white font-heavy' : 'text-brand-accent font-black'}>{p}</strong> : p)}
+                                {parts.map((p, pIdx) => pIdx % 2 === 1 ? <strong key={pIdx} className={msg.role === 'user' ? 'text-brand-bg font-heavy' : 'text-brand-accent font-black'}>{p}</strong> : p)}
                               </p>
                             );
                           }
-                          // Bullet list item
                           if (processed.startsWith('- ')) {
                             return (
                               <div key={lIdx} className="flex gap-2 pl-2">
-                                <span className={msg.role === 'user' ? 'text-white' : 'text-brand-accent'}>•</span>
+                                <span className={msg.role === 'user' ? 'text-brand-bg' : 'text-brand-accent'}>•</span>
                                 <span>{processed.substring(2)}</span>
                               </div>
                             );
@@ -340,7 +356,7 @@ Zachary will read your requirements and reply personally.`
                 </div>
               ))}
 
-              {/* Dynamic Qualified Lead Capture form direct in UI frame */}
+              {/* Lead Capture form */}
               {showLeadForm && (
                 <motion.div
                   initial={{ opacity: 0, y: 15 }}
@@ -350,38 +366,38 @@ Zachary will read your requirements and reply personally.`
                 >
                   <div className="flex items-center gap-1.5 border-b border-brand-dark/10 pb-2">
                     <Terminal size={11} className="text-brand-accent" />
-                    <span className="font-mono text-[9px] uppercase tracking-widest text-[#a3a3a3] font-bold">Parameters Qualification</span>
+                    <span className="font-mono text-[9px] uppercase tracking-widest text-[#a3a3a3] font-bold">System Brief Specification</span>
                   </div>
                   <form onSubmit={handleLeadFormSubmit} className="space-y-3.5">
                     <div className="flex flex-col gap-1">
-                      <label className="font-mono text-[8px] uppercase tracking-wider text-brand-muted font-bold">Identifier / Name *</label>
+                      <label className="font-mono text-[8px] uppercase tracking-wider text-brand-muted font-bold">Your Name / Organization *</label>
                       <input
                         type="text"
                         required
                         value={leadName}
                         onChange={(e) => setLeadName(e.target.value)}
-                        placeholder="e.g. Elena Rostova"
+                        placeholder="e.g. Alex Vance"
                         className="p-2 border border-brand-dark/15 hover:border-brand-dark focus:border-brand-dark focus:ring-1 focus:ring-brand-dark focus:outline-none transition-colors text-[11px] sharp-edge"
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <label className="font-mono text-[8px] uppercase tracking-wider text-brand-muted font-bold">Direct Corporate Email *</label>
+                      <label className="font-mono text-[8px] uppercase tracking-wider text-brand-muted font-bold">Email Address *</label>
                       <input
                         type="email"
                         required
                         value={leadEmail}
                         onChange={(e) => setLeadEmail(e.target.value)}
-                        placeholder="email@organization.co"
+                        placeholder="email@company.com"
                         className="p-2 border border-brand-dark/15 hover:border-brand-dark focus:border-brand-dark focus:ring-1 focus:ring-brand-dark focus:outline-none transition-colors text-[11px] sharp-edge"
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <label className="font-mono text-[8px] uppercase tracking-wider text-brand-muted font-bold">System Challenges / Details</label>
+                      <label className="font-mono text-[8px] uppercase tracking-wider text-brand-muted font-bold">Brief / Goals</label>
                       <textarea
                         rows={2}
                         value={leadMessage}
                         onChange={(e) => setLeadMessage(e.target.value)}
-                        placeholder="e.g. Integrating automated lead triaging with HubSpot CRM and Gemini routing..."
+                        placeholder="e.g. Need a 6-week build sprint for a RAG search system or Shopify storefront..."
                         className="p-2 border border-brand-dark/15 hover:border-brand-dark focus:border-brand-dark focus:ring-1 focus:ring-brand-dark focus:outline-none transition-colors text-[11px] sharp-edge resize-none"
                       />
                     </div>
@@ -395,7 +411,7 @@ Zachary will read your requirements and reply personally.`
                             {
                               id: `msg-cancel-${Date.now()}`,
                               role: 'assistant',
-                              content: `Transmission form closed. Let me know if you wish to query other topics instead.`
+                              content: `Form closed. Feel free to ask other questions.`
                             }
                           ]);
                         }}
@@ -405,21 +421,20 @@ Zachary will read your requirements and reply personally.`
                       </button>
                       <button
                         type="submit"
-                        className="flex-1 py-2 bg-brand-dark hover:bg-brand-accent text-white hover:text-brand-dark uppercase tracking-widest font-black text-[10px] transition-colors sharp-edge border border-brand-dark"
+                        className="flex-1 py-2 bg-brand-dark hover:bg-brand-accent text-brand-bg hover:text-brand-dark uppercase tracking-widest font-black text-[10px] transition-colors sharp-edge border border-brand-dark"
                       >
-                        Commit Brief
+                        Transmit Brief
                       </button>
                     </div>
                   </form>
                 </motion.div>
               )}
 
-              {/* Loader feedback */}
               {isLoading && (
                 <div className="flex justify-start" id="chatbot-loading-row">
                   <div className="flex items-center gap-2 px-4 py-3 border border-brand-dark/10 bg-white/70 sharp-edge">
                     <Loader size={12} className="animate-spin text-brand-accent" />
-                    <span className="font-mono text-[9px] uppercase tracking-widest text-brand-muted leading-none">INTEGRA-1 is formulating routing reply...</span>
+                    <span className="font-mono text-[9px] uppercase tracking-widest text-brand-muted leading-none">INTEGRA-1 formulating response...</span>
                   </div>
                 </div>
               )}
@@ -445,7 +460,7 @@ Zachary will read your requirements and reply personally.`
               </div>
             </div>
 
-            {/* Message input container */}
+            {/* Message input */}
             <div className="p-4 border-t border-brand-dark/15 bg-white">
               <form onSubmit={handleSubmit} className="flex gap-2">
                 <input
@@ -453,24 +468,20 @@ Zachary will read your requirements and reply personally.`
                   value={inputVal}
                   onChange={(e) => setInputVal(e.target.value)}
                   disabled={isLoading}
-                  placeholder={showLeadForm ? "Please fill lead details above..." : "Draft inquiry or systems question..."}
+                  placeholder={showLeadForm ? "Please fill lead details above..." : "Ask INTEGRA-1 about Zachary's builds or method..."}
                   className="flex-1 p-2.5 bg-brand-bg/80 border border-brand-dark/15 hover:border-brand-dark focus:border-brand-dark focus:outline-none focus:ring-1 focus:ring-brand-dark text-[11px] sharp-edge disabled:opacity-60"
                   id="chatbot-text-input"
                 />
                 <button
                   type="submit"
                   disabled={isLoading || !inputVal.trim() || showLeadForm}
-                  className="px-3.5 bg-brand-dark text-white hover:bg-brand-accent hover:text-brand-dark transition-all duration-200 focus:outline-none sharp-edge border border-brand-dark flex items-center justify-center disabled:opacity-40 cursor-pointer"
+                  className="px-3.5 bg-brand-dark text-brand-bg hover:bg-brand-accent hover:text-brand-dark transition-all duration-200 focus:outline-none sharp-edge border border-brand-dark flex items-center justify-center disabled:opacity-40 cursor-pointer"
                   id="chatbot-submit-btn"
                   title="Forward query packet"
                 >
                   <Send size={12} />
                 </button>
               </form>
-              <div className="flex items-center justify-between text-[8px] font-mono text-[#a3a3a3] mt-2 px-1">
-                <span>HANDSHAKE: ENCRYPTED</span>
-                <span>DATA ROUTE: LOCAL_SSL</span>
-              </div>
             </div>
           </motion.div>
         )}
@@ -481,7 +492,7 @@ Zachary will read your requirements and reply personally.`
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
-        className="h-12 w-12 rounded-full bg-brand-dark hover:bg-brand-accent text-white hover:text-brand-dark flex items-center justify-center shadow-lg cursor-pointer border border-brand-dark relative group transition-colors duration-300"
+        className="h-12 w-12 rounded-full bg-brand-dark hover:bg-brand-accent text-brand-bg hover:text-brand-dark flex items-center justify-center shadow-lg cursor-pointer border border-brand-dark relative group transition-colors duration-300"
         id="chatbot-toggle-trigger"
         title="Open INTEGRA-1 Secure Chat Liaison"
       >
@@ -489,16 +500,10 @@ Zachary will read your requirements and reply personally.`
           <X size={18} className="transform rotate-0 transition-transform duration-300" />
         ) : (
           <div className="relative flex items-center justify-center">
-            {/* Pulsing ring around chat launcher for aesthetics */}
             <span className="absolute h-10 w-10 bg-brand-accent/25 rounded-full animate-ping pointer-events-none group-hover:bg-brand-dark/10" />
             <MessageSquare size={18} className="relative z-10" />
           </div>
         )}
-        
-        {/* Simple tooltip label */}
-        <div className="absolute right-14 bg-brand-dark text-white text-[9px] uppercase tracking-widest px-2.5 py-1 sharp-edge border border-brand-accent/35 whitespace-nowrap shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-          INTEGRA-1 SYSTEMS LIAISON
-        </div>
       </motion.button>
     </div>
   );
