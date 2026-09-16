@@ -19,7 +19,7 @@ export default function AIChatbot() {
       content: `Greetings. I am **INTEGRA-1**, system liaison for Zachary Ongeri. 
 
 I coordinate project specifications and architecture inquiries. I can answer questions regarding:
-- **Selected Builds**: RegWatch, Vertical AI Agents, FORMA, Naisole, MNL Advocates
+- **Selected Builds**: OREoS (oreos.online), RegWatch, Vertical AI Agents, FORMA, Naisole, MNL Advocates
 - **Build Log & Method**: 5-step agent delivery framework & Postgres RLS tenant security
 - **Engagement Shapes**: Build Sprint (6-week blueprint), System Audit, Retained Build
 
@@ -46,6 +46,15 @@ How may I assist you with your system goals today?`
 
   const generateMockReply = (msgText: string): string => {
     const text = msgText.toLowerCase();
+
+    if (text.includes('oreos') || text.includes('copilot') || text.includes('marketing') || text.includes('social') || text.includes('approval gate')) {
+      return `**OREoS (Flagship Autonomous Marketing Workspace - oreos.online)**:
+- **Product Vision**: The marketing workspace that already knows your business. Connect once, and OREoS holds your brand, products, media, and voice.
+- **Autonomous Grounding**: Ingests store URLs to catalog SKUs and extract brand voice, typography, and color tokens in under 2 minutes.
+- **Human Approval Gate**: AI Copilot drafts and formats cross-channel campaigns, but publishing is strictly decoupled behind server-enforced approval cards (\`toolApproval: { schedulePost: "user-approval" }\`).
+- **PostProxy OAuth Gateway**: Dispatches campaigns across Instagram, TikTok, LinkedIn, and X without storing passwords, protected by database-level Postgres Row-Level Security (RLS).
+- **Live Deployment**: Shipped and operated live at [oreos.online](https://oreos.online).`;
+    }
 
     if (text.includes('agent') || text.includes('build an agent') || text.includes('method') || text.includes('step')) {
       return `Zachary's **5-Step Agent Delivery Blueprint**:
@@ -99,10 +108,10 @@ How may I assist you with your system goals today?`
 - **Week 06 (Hand Over)**: Deployment, tracking, and written documentation.`;
     }
 
-    if (text.includes('location') || text.includes('available') || text.includes('education') || text.includes('contact') || text.includes('email') || text.includes('hire') || text.includes('quote')) {
+    if (text.includes('location') || text.includes('available') || text.includes('education') || text.includes('philosophy') || text.includes('contact') || text.includes('email') || text.includes('hire') || text.includes('quote')) {
       return `**Zachary Ongeri Key Details**:
 - **Location**: Nairobi, Kenya (UTC+3, remote). Overlap held open for European, United States, and Asia Pacific working hours.
-- **Education**: University of Nairobi.
+- **Philosophy**: First principles over convention (Reason from ground truths; code as thought, systems engineered to fail closed).
 - **Direct Email**: zacharyongeri121@gmail.com
 - **LinkedIn**: linkedin.com/in/zachary-ongeri-253593231
 
@@ -113,6 +122,7 @@ How may I assist you with your system goals today?`
       return `Greetings. I am **INTEGRA-1**, Zachary's systems liaison. How can I assist you with your engineering or AI architectural goals today? 
 
 Feel free to query me about:
+- **OREoS Autonomous Marketing Workspace (oreos.online)**
 - **5-Step Agent Delivery Blueprint**
 - **RegWatch RAG SaaS Platform**
 - **Vertical AI WhatsApp Agents**
@@ -120,7 +130,7 @@ Feel free to query me about:
     }
 
     return `Query parsed. To help address your inquiry accurately, feel free to ask about:
-- **Zachary's Selected Builds** (RegWatch, Vertical Agents, FORMA, Naisole, MNL)
+- **Zachary's Selected Builds** (OREoS, RegWatch, Vertical Agents, FORMA, Naisole, MNL)
 - **5-Step Agent Delivery Blueprint**
 - **6-Week Build Sprint & Engagement Shapes**
 - **Direct hiring / project quotes**`;

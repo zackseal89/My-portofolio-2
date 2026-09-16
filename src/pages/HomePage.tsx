@@ -7,7 +7,7 @@ import { useEffect, useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowUpRight, ArrowRight, Check, Mail, Linkedin, Github, Globe, ExternalLink, Terminal, Sparkles, BookOpen } from 'lucide-react';
-import { CASE_STUDIES, PROJECTS, EXPERIENCES, SKILL_CATEGORIES, BUILD_DECISIONS } from '../data';
+import { CASE_STUDIES, PROJECTS, EXPERIENCES, SKILL_CATEGORIES, BUILD_DECISIONS, BOOKS } from '../data';
 import { useUI } from '../context/UIContext';
 import zacharyPortrait from '../assets/images/zachary-portrait.jpg';
 import BuildLog from '../components/BuildLog';
@@ -46,11 +46,7 @@ export default function HomePage({ anchor }: HomePageProps) {
   };
 
   const handleArticleClick = (piece: WritingPiece) => {
-    if (piece.url) {
-      window.open(piece.url, '_blank', 'noopener,noreferrer');
-    } else {
-      navigate(`/writing/${piece.slug}`);
-    }
+    navigate(`/writing/${piece.slug}`);
   };
 
   return (
@@ -74,7 +70,7 @@ export default function HomePage({ anchor }: HomePageProps) {
                 <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand-accent animate-pulse"></span>
               </span>
               <span className="font-mono text-[10px] uppercase tracking-[0.2em] font-bold text-brand-accent">
-                AI NATIVE SOFTWARE DEVELOPER // AGENTIC & LLM SYSTEMS
+                // CHAPTER 00: THE THESIS // AI NATIVE SOFTWARE DEVELOPER
               </span>
             </motion.div>
 
@@ -143,9 +139,9 @@ export default function HomePage({ anchor }: HomePageProps) {
                   <span className="font-mono text-[9px] uppercase tracking-wider text-brand-muted">LOCATION</span>
                   <span className="font-bold text-brand-dark">Nairobi, Kenya (UTC+3)</span>
                 </div>
-                <div className="flex justify-between items-center border-b border-brand-dark/10 pb-2">
-                  <span className="font-mono text-[9px] uppercase tracking-wider text-brand-muted">EDUCATION</span>
-                  <span className="font-bold text-brand-dark">University of Nairobi</span>
+                <div className="flex justify-between items-center border-b border-brand-dark/10 pb-2 gap-2">
+                  <span className="font-mono text-[9px] uppercase tracking-wider text-brand-muted shrink-0">PHILOSOPHY</span>
+                  <span className="font-bold text-brand-dark text-right">First Principles Over Convention</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="font-mono text-[9px] uppercase tracking-wider text-brand-muted">AVAILABILITY</span>
@@ -165,7 +161,7 @@ export default function HomePage({ anchor }: HomePageProps) {
         <div className="space-y-4 mb-12">
           <div className="inline-flex items-center gap-2 border border-brand-accent/30 bg-brand-accent/5 px-3 py-1 sharp-edge">
             <span className="font-mono text-[10px] uppercase tracking-[0.2em] font-bold text-brand-accent">
-              // 01 SELECTED BUILDS
+              // CHAPTER 01: SELECTED BUILDS
             </span>
           </div>
           <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-brand-dark">
@@ -222,6 +218,99 @@ export default function HomePage({ anchor }: HomePageProps) {
       {/* 02 & 03 BUILD LOG & METHODOLOGY */}
       <BuildLog />
 
+      {/* CHAPTER 03: WORKING CANON & MENTAL MODELS */}
+      <section
+        className="py-20 md:py-28 px-6 md:px-12 w-full max-w-7xl mx-auto border-t border-brand-dark/15"
+        id="canon"
+      >
+        <div className="space-y-4 mb-12">
+          <div className="inline-flex items-center gap-2 border border-brand-accent/30 bg-brand-accent/5 px-3 py-1 sharp-edge">
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] font-bold text-brand-accent">
+              // CHAPTER 03: WORKING CANON
+            </span>
+          </div>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-brand-dark">
+                The Reading Room &amp; Mental Models
+              </h2>
+              <p className="font-sans text-xs md:text-sm text-brand-muted max-w-xl leading-relaxed mt-2">
+                Software systems reflect the cognitive models of their creators. Three foundational texts that directly govern how I structure feedback delays, agent scope, and risk asymmetry.
+              </p>
+            </div>
+            <button
+              onClick={() => navigate('/books')}
+              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider font-bold text-brand-dark hover:text-brand-accent transition-colors self-start md:self-auto cursor-pointer"
+            >
+              <span>Explore All 12 Works</span>
+              <ArrowRight size={13} />
+            </button>
+          </div>
+        </div>
+
+        {/* Visual Banner Preview */}
+        <div
+          onClick={() => navigate('/books')}
+          className="mb-8 border border-brand-dark/15 bg-brand-surface p-2.5 sharp-edge shadow-sm cursor-pointer group hover:border-brand-accent transition-colors"
+        >
+          <div className="relative aspect-[21/9] w-full overflow-hidden bg-brand-dark sharp-edge border border-brand-dark/10">
+            <img
+              src="/assets/images/reading-canon-banner.jpg"
+              alt="The Canon: Intellectual Bedrock"
+              className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
+            />
+            <div className="absolute bottom-2 right-2 bg-brand-dark/90 text-brand-bg px-2.5 py-1 font-mono text-[9px] uppercase tracking-widest border border-brand-accent/40 sharp-edge">
+              VIEW THE WORKING CANON &rarr;
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {BOOKS.slice(0, 3).map((book) => (
+            <motion.div
+              key={book.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              onClick={() => navigate('/books')}
+              className="p-6 border border-brand-dark/15 bg-brand-surface hover:border-brand-accent transition-all duration-300 sharp-edge flex flex-col justify-between space-y-4 cursor-pointer select-none group"
+            >
+              <div className="space-y-3">
+                <div className="flex justify-between items-center font-mono text-[9px] uppercase font-bold">
+                  <span className="px-2 py-0.5 border border-brand-accent/20 bg-brand-accent/5 text-brand-accent sharp-edge">
+                    {book.category}
+                  </span>
+                  <span className="text-brand-muted">{book.year}</span>
+                </div>
+
+                <div className="border-b border-brand-dark/10 pb-3">
+                  <h3 className="font-serif text-xl font-bold text-brand-dark group-hover:text-brand-accent transition-colors">
+                    {book.title}
+                  </h3>
+                  <span className="font-sans text-xs text-brand-muted font-medium">
+                    {book.author}
+                  </span>
+                </div>
+
+                <blockquote className="font-serif text-xs italic text-brand-dark/80 border-l border-brand-accent pl-3 py-1 bg-brand-accent/5">
+                  &ldquo;{book.keyAxiom}&rdquo;
+                </blockquote>
+
+                <p className="font-sans text-xs text-brand-muted leading-relaxed">
+                  <strong className="text-brand-dark block mb-1 font-mono text-[10px] uppercase tracking-wider">Direct Architectural Impact:</strong>
+                  {book.impactOnCode}
+                </p>
+              </div>
+
+              <div className="pt-4 border-t border-brand-dark/10 flex justify-between items-center font-mono text-[10px] font-bold text-brand-accent">
+                <span>View Critical Annotation</span>
+                <ArrowRight size={11} className="group-hover:translate-x-1 transition-transform" />
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
       {/* 04 TECHNICAL STACK & DOMAINS SHIPPED */}
       <section
         className="py-20 md:py-28 px-6 md:px-12 w-full max-w-7xl mx-auto border-t border-brand-dark/15"
@@ -230,7 +319,7 @@ export default function HomePage({ anchor }: HomePageProps) {
         <div className="space-y-4 mb-12">
           <div className="inline-flex items-center gap-2 border border-brand-accent/30 bg-brand-accent/5 px-3 py-1 sharp-edge">
             <span className="font-mono text-[10px] uppercase tracking-[0.2em] font-bold text-brand-accent">
-              // 04 TECHNICAL STACK
+              // CHAPTER 04: TECHNICAL STACK
             </span>
           </div>
           <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-brand-dark">
@@ -265,7 +354,7 @@ export default function HomePage({ anchor }: HomePageProps) {
         <div className="space-y-4 mb-12">
           <div className="inline-flex items-center gap-2 border border-brand-accent/30 bg-brand-accent/5 px-3 py-1 sharp-edge">
             <span className="font-mono text-[10px] uppercase tracking-[0.2em] font-bold text-brand-accent">
-              // 05 WRITING & ARTICLES
+              // CHAPTER 05: WRITING & ARTICLES
             </span>
           </div>
           <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-brand-dark">
@@ -301,8 +390,23 @@ export default function HomePage({ anchor }: HomePageProps) {
               </div>
 
               <div className="pt-4 border-t border-brand-dark/10 flex justify-between items-center font-mono text-[10px] font-bold text-brand-accent">
-                <span>Read Article</span>
-                {piece.url ? <ExternalLink size={11} /> : <BookOpen size={11} className="group-hover:translate-x-0.5 transition-transform" />}
+                <span className="flex items-center gap-1.5">
+                  <BookOpen size={11} className="group-hover:translate-x-0.5 transition-transform" />
+                  <span>Read Article</span>
+                </span>
+                {piece.url && (
+                  <span
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.open(piece.url, '_blank', 'noopener,noreferrer');
+                    }}
+                    className="flex items-center gap-1 text-brand-muted hover:text-brand-dark transition-colors px-1.5 py-0.5 border border-brand-dark/10 bg-brand-bg sharp-edge"
+                    title="Read original publication"
+                  >
+                    <span>{piece.venue?.includes('LinkedIn') ? 'LinkedIn' : 'External'}</span>
+                    <ExternalLink size={9} />
+                  </span>
+                )}
               </div>
             </div>
           ))}
@@ -319,7 +423,7 @@ export default function HomePage({ anchor }: HomePageProps) {
             <div className="space-y-3">
               <div className="inline-flex items-center gap-2 border border-brand-accent/30 bg-brand-accent/5 px-3 py-1 sharp-edge">
                 <span className="font-mono text-[10px] uppercase tracking-[0.2em] font-bold text-brand-accent">
-                  // 06 DIRECT INGRESS
+                  // CHAPTER 06: DIRECT INGRESS
                 </span>
               </div>
               <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-brand-dark">

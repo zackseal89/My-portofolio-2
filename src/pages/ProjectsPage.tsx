@@ -4,11 +4,12 @@
  */
 
 import { motion } from 'motion/react';
-import { Github, ExternalLink, ShieldCheck, Layers, MessageSquareText, ShoppingBag, Globe, LucideIcon } from 'lucide-react';
+import { Github, ExternalLink, ShieldCheck, Layers, MessageSquareText, ShoppingBag, Globe, LucideIcon, Sparkles } from 'lucide-react';
 import { PROJECTS, CASE_STUDIES } from '../data';
 import { useUI } from '../context/UIContext';
 
 const PROJECT_ICONS: Record<string, LucideIcon> = {
+  'oreos-platform': Sparkles,
   'regwatch-platform': ShieldCheck,
   'vertical-agents': MessageSquareText,
   'forma-brand': Layers,
@@ -22,7 +23,7 @@ const STATUS_STYLES: Record<string, string> = {
   'Client Work': 'bg-brand-dark/5 text-brand-muted border-brand-dark/10',
 };
 
-const METRIC_CASE_IDS = ['vertical-agents', 'mnl-advocates'];
+const METRIC_CASE_IDS = ['oreos', 'vertical-agents'];
 
 export default function ProjectsPage() {
   const { openCaseStudy } = useUI();
@@ -62,17 +63,45 @@ export default function ProjectsPage() {
                 id={`project-card-${project.id}`}
               >
                 <div>
-                  {/* Code-generated visual panel */}
-                  <div className="relative aspect-[16/10] w-full overflow-hidden border border-brand-dark/10 mb-6 sharp-edge bg-brand-dark/[0.03] flex items-center justify-center">
-                    <div
-                      className="absolute inset-0 opacity-[0.08] pointer-events-none"
-                      style={{ backgroundImage: 'radial-gradient(#121212 1px, transparent 0)', backgroundSize: '14px 14px' }}
-                    />
-                    <Icon size={40} className="text-brand-dark/20 group-hover:text-brand-accent/40 transition-colors duration-500" strokeWidth={1.25} />
-                    <div className="absolute top-3 left-3 bg-brand-dark text-brand-bg px-2.5 py-1 font-mono text-[9px] uppercase tracking-widest leading-none sharp-edge">
+                  {/* Card Visual Hero Thumbnail */}
+                  <div className="relative aspect-video w-full bg-white border border-brand-dark/10 mb-6 flex items-center justify-center overflow-hidden sharp-edge">
+                    {project.id === 'oreos-platform' ? (
+                      <img
+                        src="/assets/images/oreos-platform-hero.png"
+                        alt="OREoS AI Marketing OS Interface Preview"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : project.id === 'cognitive-engine' ? (
+                      <img
+                        src="/assets/images/cognitive-engine-architecture.jpg"
+                        alt="Cognitive Engine Architecture Preview"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : project.id === 'neural-search' ? (
+                      <img
+                        src="/assets/images/neural-search-architecture.jpg"
+                        alt="Neural Search Hybrid Vector Engine Dashboard"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : project.id === 'forma' ? (
+                      <img
+                        src="/assets/images/forma-generative-pipeline.png"
+                        alt="FORMA Generative UI Design System Preview"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <>
+                        <div
+                          className="absolute inset-0 opacity-10"
+                          style={{ backgroundImage: 'radial-gradient(#121212 1px, transparent 0)', backgroundSize: '14px 14px' }}
+                        />
+                        <Icon size={40} className="text-brand-dark/20 group-hover:text-brand-accent/40 transition-colors duration-500" strokeWidth={1.25} />
+                      </>
+                    )}
+                    <div className="absolute top-3 left-3 bg-brand-dark text-brand-bg px-2.5 py-1 font-mono text-[9px] uppercase tracking-widest leading-none sharp-edge z-10">
                       NO_{project.number}
                     </div>
-                    <div className={`absolute top-3 right-3 font-mono text-[8px] uppercase tracking-widest px-2 py-0.5 border sharp-edge font-bold ${STATUS_STYLES[project.status]}`}>
+                    <div className={`absolute top-3 right-3 font-mono text-[8px] uppercase tracking-widest px-2 py-0.5 border sharp-edge font-bold z-10 ${STATUS_STYLES[project.status]}`}>
                       {project.status}
                     </div>
                   </div>

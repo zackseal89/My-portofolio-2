@@ -6,7 +6,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { Clock, Calendar, ArrowLeft, Share2, Check } from 'lucide-react';
+import { Clock, Calendar, ArrowLeft, Share2, Check, ExternalLink } from 'lucide-react';
 import { loadWritingPieces } from '../lib/writing';
 import NotFoundPage from './NotFoundPage';
 
@@ -94,8 +94,21 @@ export default function ArticlePage() {
           {article.title}
         </h1>
 
-        <div className="font-mono text-xs text-brand-muted">
-          // Published by {article.venue || 'Zachary Ongeri'}
+        <div className="flex flex-wrap items-center justify-between gap-2 pt-2">
+          <div className="font-mono text-xs text-brand-muted">
+            // Published by {article.venue || 'Zachary Ongeri'}
+          </div>
+          {article.url && (
+            <a
+              href={article.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase font-bold text-brand-accent hover:underline border border-brand-accent/30 bg-brand-accent/5 px-2.5 py-1 sharp-edge"
+            >
+              <span>Original on {article.venue || 'LinkedIn'}</span>
+              <ExternalLink size={11} />
+            </a>
+          )}
         </div>
       </div>
 
@@ -121,13 +134,21 @@ export default function ArticlePage() {
             if (imageMatch) {
               const [, alt, src] = imageMatch;
               return (
-                <img
-                  key={idx}
-                  src={src}
-                  alt={alt}
-                  className="w-full border border-brand-dark/15 sharp-edge my-6"
-                  loading="lazy"
-                />
+                <figure key={idx} className="my-8 space-y-2">
+                  <div className="overflow-hidden border border-brand-dark/15 bg-brand-surface sharp-edge shadow-sm">
+                    <img
+                      src={src}
+                      alt={alt}
+                      className="w-full h-auto object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  {alt && (
+                    <figcaption className="font-mono text-[10px] uppercase tracking-wider text-brand-muted text-center">
+                      // {alt}
+                    </figcaption>
+                  )}
+                </figure>
               );
             }
 

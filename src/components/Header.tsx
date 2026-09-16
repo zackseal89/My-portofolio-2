@@ -9,13 +9,19 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 
-const JUMP_LINKS = [
+interface NavLinkItem {
+  id: string;
+  label: string;
+  path?: string;
+}
+
+const JUMP_LINKS: NavLinkItem[] = [
   { id: 'builds', label: '01 BUILDS' },
   { id: 'method', label: '02 METHOD' },
   { id: 'decisions', label: '03 DECISIONS' },
-  { id: 'stack', label: '04 STACK' },
+  { id: 'canon', label: '04 CANON', path: '/books' },
   { id: 'writing', label: '05 WRITING' },
-  { id: 'contact', label: '06 CONTACT' },
+  { id: 'about', label: '06 ABOUT', path: '/about' },
 ];
 
 export default function Header() {
@@ -23,16 +29,21 @@ export default function Header() {
   const { openContact, theme, toggleTheme } = useUI();
   const navigate = useNavigate();
 
-  const scrollToSection = (id: string) => {
+  const handleNavClick = (link: NavLinkItem) => {
     setMobileOpen(false);
-    const element = document.getElementById(id);
+    if (link.path && link.path !== '/') {
+      navigate(link.path);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    const element = document.getElementById(link.id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
       navigate('/');
       setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 100);
+        document.getElementById(link.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 150);
     }
   };
 
@@ -47,7 +58,10 @@ export default function Header() {
       <div className="flex justify-between items-center px-4 md:px-12 py-4.5 w-full max-w-7xl mx-auto">
         {/* Brand Logo */}
         <button
-          onClick={() => scrollToSection('hero')}
+          onClick={() => {
+            navigate('/');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
           className="font-serif text-xl md:text-2xl font-bold tracking-tighter text-brand-dark cursor-pointer transition-transform duration-300 hover:scale-[1.02] flex items-center gap-2"
           id="nav-logo"
         >
@@ -57,15 +71,15 @@ export default function Header() {
           </span>
         </button>
 
-        {/* Minimalist Section Jump Bar (ADHD-friendly scannability) */}
+        {/* Minimalist Section Jump Bar */}
         <div className="hidden lg:flex items-center gap-2 bg-brand-surface/60 border border-brand-dark/10 p-1 sharp-edge">
-          {JUMP_LINKS.map(({ id, label }) => (
+          {JUMP_LINKS.map((link) => (
             <button
-              key={id}
-              onClick={() => scrollToSection(id)}
+              key={link.id}
+              onClick={() => handleNavClick(link)}
               className="font-mono text-[10px] tracking-wider px-3 py-1.5 text-brand-muted hover:text-brand-dark hover:bg-brand-dark/5 transition-all sharp-edge cursor-pointer"
             >
-              {label}
+              {link.label}
             </button>
           ))}
         </div>
@@ -126,13 +140,13 @@ export default function Header() {
               id="mobile-nav-drawer"
             >
               <div className="flex flex-col gap-4">
-                {JUMP_LINKS.map(({ id, label }) => (
+                {JUMP_LINKS.map((link) => (
                   <button
-                    key={id}
-                    onClick={() => scrollToSection(id)}
+                    key={link.id}
+                    onClick={() => handleNavClick(link)}
                     className="font-mono text-xs uppercase tracking-widest text-left text-brand-dark hover:text-brand-accent transition-colors border-b border-brand-dark/10 pb-3"
                   >
-                    {label}
+                    {link.label}
                   </button>
                 ))}
               </div>

@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { PenLine, ArrowUpRight } from 'lucide-react';
+import { PenLine, ArrowRight, ExternalLink } from 'lucide-react';
 import { loadWritingPieces } from '../lib/writing';
 
 const TYPE_STYLES: Record<string, string> = {
@@ -28,14 +29,10 @@ export default function WritingPage() {
             PUBLISHED WORK
           </span>
           <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-brand-dark">
-            Writing
+            Writing &amp; Technical Essays
           </h2>
           <p className="font-sans text-sm md:text-base text-brand-muted mt-4 max-w-2xl leading-relaxed">
-            I write essays under the name Shash: strict three-beat form,
-            lowercase, no em dashes, Nairobi-specific, published weekly as
-            Minor Testimonies. It's a different muscle from shipping RLS
-            policies or sizing models, and I've stopped pretending I only
-            need one. This page is the unedited record of both.
+            Technical architecture notes, production agent blueprints, unit economics diagnostics, and essays on software engineering under extreme ambiguity. Every piece is written in local Markdown and published directly via Git commit.
           </p>
         </div>
       </div>
@@ -54,7 +51,6 @@ export default function WritingPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {pieces.map((piece, idx) => {
-            const Wrapper = piece.url ? 'a' : 'div';
             return (
               <motion.div
                 key={piece.slug}
@@ -63,9 +59,9 @@ export default function WritingPage() {
                 viewport={{ once: true, margin: '-10% 0px' }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               >
-                <Wrapper
-                  {...(piece.url ? { href: piece.url, target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  className="flex flex-col justify-between border border-brand-dark/15 bg-brand-surface hover:border-brand-dark transition-all duration-300 p-6 sharp-edge shadow-sm h-full group"
+                <Link
+                  to={`/writing/${piece.slug}`}
+                  className="flex flex-col justify-between border border-brand-dark/15 bg-brand-surface hover:border-brand-dark transition-all duration-300 p-6 sharp-edge shadow-sm h-full group select-none cursor-pointer"
                   id={`writing-card-${piece.slug}`}
                 >
                   <div>
@@ -85,18 +81,32 @@ export default function WritingPage() {
                       {[piece.venue, piece.date].filter(Boolean).join(' · ')}
                     </p>
 
-                    <p className="font-serif text-sm italic text-[#3f3f3f] leading-relaxed border-t border-brand-dark/10 pt-4">
+                    <p className="font-sans text-xs text-brand-muted leading-relaxed border-t border-brand-dark/10 pt-4 line-clamp-3">
                       {piece.blurb}
                     </p>
                   </div>
 
-                  {piece.url && (
-                    <div className="flex items-center gap-1 mt-6 pt-4 border-t border-brand-dark/10 font-sans text-[10px] uppercase tracking-wider font-extrabold text-brand-accent">
-                      <span>Read it</span>
-                      <ArrowUpRight size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                    </div>
-                  )}
-                </Wrapper>
+                  <div className="flex items-center justify-between mt-6 pt-4 border-t border-brand-dark/10 font-mono text-[10px] uppercase tracking-wider font-bold text-brand-accent">
+                    <span className="flex items-center gap-1">
+                      <span>Read Article</span>
+                      <ArrowRight size={11} className="group-hover:translate-x-1 transition-transform" />
+                    </span>
+                    {piece.url && (
+                      <span
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          window.open(piece.url, '_blank', 'noopener,noreferrer');
+                        }}
+                        className="text-brand-muted hover:text-brand-dark flex items-center gap-1 transition-colors px-1.5 py-0.5 border border-brand-dark/10 bg-brand-bg sharp-edge"
+                        title="View on original venue"
+                      >
+                        <span>{piece.venue?.includes('LinkedIn') ? 'LinkedIn' : 'External'}</span>
+                        <ExternalLink size={9} />
+                      </span>
+                    )}
+                  </div>
+                </Link>
               </motion.div>
             );
           })}

@@ -5,7 +5,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Play, RefreshCw, CheckCircle, Sparkles, ShoppingBag, Database } from 'lucide-react';
+import { X, Play, RefreshCw, CheckCircle, Sparkles, ShoppingBag, Database, ExternalLink } from 'lucide-react';
 import { CaseStudy } from '../types';
 
 interface CaseStudyModalProps {
@@ -22,6 +22,8 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
   const [queryInput, setQueryInput] = useState('What are the latest Central Bank of Kenya filings on digital asset compliance?');
   const [cartValue, setCartValue] = useState<number>(100);
   const [selectedUpsell, setSelectedUpsell] = useState<boolean>(false);
+  const [oreosStoreUrl, setOreosStoreUrl] = useState<string>('https://oreos.online');
+  const [oreosApprovalGate, setOreosApprovalGate] = useState<boolean>(true);
 
   if (!project) return null;
 
@@ -31,7 +33,17 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
     setLogMessages([]);
 
     let logs: string[] = [];
-    if (project.id === 'regwatch') {
+    if (project.id === 'oreos') {
+      logs = [
+        `🌐 GROUNDING INGEST: Crawling ${oreosStoreUrl || 'https://oreos.online'} - palette, typography & voice rules parsed.`,
+        '📦 CATALOG SYNC: 100% SKU inventory & metadata synced into tenant-isolated Postgres RLS.',
+        '🤖 COPILOT DRAFT: Platform-native campaign generated for Instagram, TikTok, LinkedIn & X.',
+        oreosApprovalGate
+          ? '🛡️ TOOL APPROVAL GATE: toolApproval: { schedulePost: "user-approval" } - awaiting human click.'
+          : '⚠️ BYPASS WARNING: Direct publish mode triggered.',
+        '🚀 POSTPROXY DISPATCH: Human approval verified. Queued to social APIs via isolated OAuth gateway.'
+      ];
+    } else if (project.id === 'regwatch') {
       logs = [
         '📂 INTAKE: Central Bank of Kenya (CBK) & ODPC filing stream.',
         '🧠 CHUNKING: Voyage AI semantic vector encoding initialized.',
@@ -130,13 +142,106 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
           <div className="flex-1 p-8 md:p-12 space-y-12">
             {/* Project Title Block */}
             <div className="space-y-4">
-              <h1 className="font-serif text-3xl md:text-5xl font-bold tracking-tight leading-tight">
-                {project.title}
-              </h1>
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <h1 className="font-serif text-3xl md:text-5xl font-bold tracking-tight leading-tight">
+                  {project.title}
+                </h1>
+                {project.id === 'oreos' && (
+                  <a
+                    href="https://oreos.online"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-dark text-brand-bg hover:bg-brand-accent hover:text-brand-dark transition-colors font-mono text-xs uppercase tracking-wider font-bold sharp-edge"
+                  >
+                    <span>Visit Live Site (oreos.online)</span>
+                    <ExternalLink size={12} />
+                  </a>
+                )}
+              </div>
               <p className="font-serif text-xl italic text-brand-muted leading-relaxed max-w-2xl">
                 "{project.subtitle}"
               </p>
             </div>
+
+            {/* OREoS Visual Showcase Banner */}
+            {project.id === 'oreos' && (
+              <div className="space-y-2 border border-brand-dark/15 bg-brand-surface p-2.5 sharp-edge shadow-sm">
+                <div className="relative overflow-hidden aspect-video w-full bg-brand-dark sharp-edge">
+                  <img
+                    src="/assets/images/oreos-platform-hero.png"
+                    alt="OREoS AI Marketing OS Interface Preview"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-2 right-2 bg-brand-dark/90 text-brand-bg px-2.5 py-1 font-mono text-[9px] uppercase tracking-widest border border-brand-accent/40 sharp-edge">
+                    FIGURE 01 // LIVE_PRODUCTION_SURFACE
+                  </div>
+                </div>
+                <div className="flex flex-wrap justify-between items-center px-2 py-1 font-mono text-[10px] text-brand-muted uppercase">
+                  <span>Turn Any Product Into High-Converting Campaigns</span>
+                  <span className="text-brand-accent font-bold">100% Brand-Grounded Multi-Channel Engine</span>
+                </div>
+              </div>
+            )}
+
+            {/* Cognitive Engine Visual Showcase Banner */}
+            {project.id === 'cognitive-engine' && (
+              <div className="space-y-2 border border-brand-dark/15 bg-brand-surface p-2.5 sharp-edge shadow-sm">
+                <div className="relative overflow-hidden aspect-video w-full bg-brand-dark sharp-edge">
+                  <img
+                    src="/assets/images/cognitive-engine-architecture.jpg"
+                    alt="Cognitive Engine RAG Knowledge Graph & Pipeline Interface"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-2 right-2 bg-brand-dark/90 text-brand-bg px-2.5 py-1 font-mono text-[9px] uppercase tracking-widest border border-brand-accent/40 sharp-edge">
+                    FIGURE 01 // KNOWLEDGE_GRAPH_TOPOLOGY
+                  </div>
+                </div>
+                <div className="flex flex-wrap justify-between items-center px-2 py-1 font-mono text-[10px] text-brand-muted uppercase">
+                  <span>Deep Web Synthesis & Vector Space Manifolds</span>
+                  <span className="text-brand-accent font-bold">Deterministic JSON Schema Validator</span>
+                </div>
+              </div>
+            )}
+
+            {/* Neural Search Visual Showcase Banner */}
+            {project.id === 'neural-search' && (
+              <div className="space-y-2 border border-brand-dark/15 bg-brand-surface p-2.5 sharp-edge shadow-sm">
+                <div className="relative overflow-hidden aspect-video w-full bg-brand-dark sharp-edge">
+                  <img
+                    src="/assets/images/neural-search-architecture.jpg"
+                    alt="Neural Search Hybrid Vector Engine Dashboard"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-2 right-2 bg-brand-dark/90 text-brand-bg px-2.5 py-1 font-mono text-[9px] uppercase tracking-widest border border-brand-accent/40 sharp-edge">
+                    FIGURE 01 // VECTOR_SPACE_TOPOLOGY & SPARSE_INDEX
+                  </div>
+                </div>
+                <div className="flex flex-wrap justify-between items-center px-2 py-1 font-mono text-[10px] text-brand-muted uppercase">
+                  <span>1536D Dense Vectors + BM25 Sparse Inverted Index</span>
+                  <span className="text-brand-accent font-bold">P99 &lt; 12ms // 42,000 QPS Throughput</span>
+                </div>
+              </div>
+            )}
+
+            {/* FORMA Visual Showcase Banner */}
+            {project.id === 'forma' && (
+              <div className="space-y-2 border border-brand-dark/15 bg-brand-surface p-2.5 sharp-edge shadow-sm">
+                <div className="relative overflow-hidden aspect-video w-full bg-brand-dark sharp-edge">
+                  <img
+                    src="/assets/images/forma-generative-pipeline.png"
+                    alt="FORMA Generative UI Design System Preview"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-2 right-2 bg-brand-dark/90 text-brand-bg px-2.5 py-1 font-mono text-[9px] uppercase tracking-widest border border-brand-accent/40 sharp-edge">
+                    FIGURE 01 // GENERATIVE_COMPONENT_PIPELINE
+                  </div>
+                </div>
+                <div className="flex flex-wrap justify-between items-center px-2 py-1 font-mono text-[10px] text-brand-muted uppercase">
+                  <span>Prompt to AST &rarr; Wireframe Decomposition &rarr; Production React</span>
+                  <span className="text-brand-accent font-bold">Sub-Second Realtime Render</span>
+                </div>
+              </div>
+            )}
 
             {/* Quick Details Stats Block */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 py-6 border-y border-brand-dark/15 font-sans">
@@ -230,6 +335,46 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
 
                 {/* Specific Simulator Form Inputs based on Case */}
                 <div className="py-4 border-y border-brand-dark/10 space-y-4">
+                  {project.id === 'oreos' && (
+                    <div className="space-y-3 font-sans">
+                      <div className="space-y-1">
+                        <label className="block text-[11px] uppercase tracking-wider text-brand-muted font-bold font-mono">
+                          Store Grounding URL:
+                        </label>
+                        <input
+                          type="text"
+                          disabled={simulationState === 'running'}
+                          value={oreosStoreUrl}
+                          onChange={(e) => setOreosStoreUrl(e.target.value)}
+                          placeholder="https://yourstore.com"
+                          className="w-full text-xs p-2.5 bg-brand-surface border border-brand-dark/20 text-brand-dark focus:outline-none focus:border-brand-accent font-mono sharp-edge"
+                        />
+                        <p className="text-[10px] text-brand-muted font-sans">
+                          Autonomous crawler extracts typography, palette tokens, SKU catalog, and brand voice.
+                        </p>
+                      </div>
+                      <div className="p-3 bg-brand-surface border border-brand-dark/10 flex items-center justify-between sharp-edge">
+                        <div className="flex items-center gap-2">
+                          <Sparkles size={14} className="text-brand-accent shrink-0" />
+                          <div>
+                            <span className="font-mono text-xs font-bold text-brand-dark block">Server Tool Approval Gate</span>
+                            <span className="text-[9px] text-brand-muted block font-mono">toolApproval: &#123; schedulePost: "user-approval" &#125;</span>
+                          </div>
+                        </div>
+                        <label className="relative inline-flex items-center cursor-pointer">
+                          <input
+                            type="checkbox"
+                            disabled={simulationState === 'running'}
+                            checked={oreosApprovalGate}
+                            onChange={(e) => setOreosApprovalGate(e.target.checked)}
+                            className="sr-only peer"
+                          />
+                          <div className="w-8 h-4 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-brand-accent"></div>
+                        </label>
+                      </div>
+                    </div>
+                  )}
+
                   {(project.id === 'regwatch' || project.id === 'vertical-agents') && (
                     <div className="space-y-2">
                       <label className="block text-[11px] uppercase tracking-wider text-brand-muted font-bold">

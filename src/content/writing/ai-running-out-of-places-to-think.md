@@ -17,7 +17,7 @@ Every AI conversation begins in a place you'll probably never see. Not on your l
 
 Before an AI model answers your question, it has already consumed electricity, compute power and network infrastructure that most of us never think about.
 
-![AI Isn't Running Out of Ideas. It's Running Out of Places to Think — the four pillars of the intelligent economy: compute, cloud, data centres, and connectivity.](/assets/ai-running-out-of-places-to-think.png)
+![AI Isn't Running Out of Ideas. It's Running Out of Places to Think: the four pillars of the intelligent economy: compute, cloud, data centres, and connectivity.](/assets/ai-running-out-of-places-to-think.png)
 
 ## Who Owns the Infrastructure Intelligence Depends On?
 

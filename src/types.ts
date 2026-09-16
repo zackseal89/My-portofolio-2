@@ -116,3 +116,16 @@ export interface LeadSubmission {
   routedTo?: string;
   loading?: boolean;
 }
+
+export interface Book {
+  id: string;
+  title: string;
+  author: string;
+  year: number;
+  category: 'Systems & Cybernetics' | 'Philosophy & Mind' | 'Risk & Markets' | 'Software Craft';
+  verdict: string;
+  impactOnCode: string;
+  keyAxiom: string;
+  status: 'Deep Re-read' | 'Foundational' | 'Reference';
+}
+

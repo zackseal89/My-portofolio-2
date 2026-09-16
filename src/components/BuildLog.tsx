@@ -20,7 +20,7 @@ export default function BuildLog() {
       <div className="space-y-4 mb-10">
         <div className="inline-flex items-center gap-2 border border-brand-accent/30 bg-brand-accent/5 px-3 py-1 sharp-edge">
           <span className="font-mono text-[10px] uppercase tracking-[0.2em] font-bold text-brand-accent">
-            // 03 BUILD LOG & METHODOLOGY
+            // CHAPTER 02: OPERATING AXIOMS &amp; METHOD
           </span>
         </div>
         <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-brand-dark">
