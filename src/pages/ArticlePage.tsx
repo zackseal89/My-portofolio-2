@@ -7,8 +7,229 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Clock, Calendar, ArrowLeft, Share2, Check, ExternalLink } from 'lucide-react';
+import { ReactNode } from 'react';
 import { loadWritingPieces } from '../lib/writing';
 import NotFoundPage from './NotFoundPage';
+
+function renderInline(text: string): ReactNode {
+  // Regex to split on markdown inline tokens:
+  // [text](url), **bold**, `code`, *italic*
+  const tokenRegex = /(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|`[^`]+`|\*[^*]+\*)/g;
+  const parts = text.split(tokenRegex);
+
+  return parts.map((part, i) => {
+    if (!part) return null;
+
+    // Link: [text](url)
+    const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (linkMatch) {
+      return (
+        <a
+          key={i}
+          href={linkMatch[2]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-brand-accent underline underline-offset-2 hover:text-brand-dark transition-colors font-medium"
+        >
+          {linkMatch[1]}
+        </a>
+      );
+    }
+
+    // Bold: **text**
+    if (part.startsWith('**') && part.endsWith('**') && part.length >= 4) {
+      return (
+        <strong key={i} className="font-semibold text-brand-dark">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+
+    // Code: `code`
+    if (part.startsWith('`') && part.endsWith('`') && part.length >= 2) {
+      return (
+        <code
+          key={i}
+          className="px-1.5 py-0.5 font-mono text-xs bg-brand-dark/10 text-brand-dark sharp-edge border border-brand-dark/15"
+        >
+          {part.slice(1, -1)}
+        </code>
+      );
+    }
+
+    // Italic: *text*
+    if (part.startsWith('*') && part.endsWith('*') && part.length >= 2) {
+      return (
+        <em key={i} className="italic text-brand-dark/95">
+          {part.slice(1, -1)}
+        </em>
+      );
+    }
+
+    return part;
+  });
+}
+
+type MarkdownBlock =
+  | { type: 'hr' }
+  | { type: 'h1'; text: string }
+  | { type: 'h2'; text: string }
+  | { type: 'h3'; text: string }
+  | { type: 'h4'; text: string }
+  | { type: 'code'; lang: string; code: string }
+  | { type: 'image'; alt: string; src: string }
+  | { type: 'table'; headers: string[]; rows: string[][] }
+  | { type: 'blockquote'; text: string }
+  | { type: 'list'; ordered: boolean; items: string[] }
+  | { type: 'p'; text: string };
+
+function parseMarkdownBlocks(rawContent: string): MarkdownBlock[] {
+  const lines = rawContent.split(/\r?\n/);
+  const blocks: MarkdownBlock[] = [];
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i];
+    const trimmed = line.trim();
+
+    if (!trimmed) {
+      i++;
+      continue;
+    }
+
+    // Code block
+    if (trimmed.startsWith('```')) {
+      const lang = trimmed.slice(3).trim();
+      const codeLines: string[] = [];
+      i++;
+      while (i < lines.length && !lines[i].trim().startsWith('```')) {
+        codeLines.push(lines[i]);
+        i++;
+      }
+      if (i < lines.length) i++; // consume closing ```
+      blocks.push({ type: 'code', lang, code: codeLines.join('\n') });
+      continue;
+    }
+
+    // Horizontal rule
+    if (trimmed === '---' || trimmed === '***' || trimmed === '___') {
+      blocks.push({ type: 'hr' });
+      i++;
+      continue;
+    }
+
+    // Headers
+    if (trimmed.startsWith('# ')) {
+      blocks.push({ type: 'h1', text: trimmed.slice(2).trim() });
+      i++;
+      continue;
+    }
+    if (trimmed.startsWith('## ')) {
+      blocks.push({ type: 'h2', text: trimmed.slice(3).trim() });
+      i++;
+      continue;
+    }
+    if (trimmed.startsWith('### ')) {
+      blocks.push({ type: 'h3', text: trimmed.slice(4).trim() });
+      i++;
+      continue;
+    }
+    if (trimmed.startsWith('#### ')) {
+      blocks.push({ type: 'h4', text: trimmed.slice(5).trim() });
+      i++;
+      continue;
+    }
+
+    // Standalone Image
+    const imgMatch = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+    if (imgMatch) {
+      blocks.push({ type: 'image', alt: imgMatch[1], src: imgMatch[2] });
+      i++;
+      continue;
+    }
+
+    // Table
+    if (trimmed.startsWith('|')) {
+      const tableLines: string[] = [];
+      while (i < lines.length && lines[i].trim().startsWith('|')) {
+        tableLines.push(lines[i].trim());
+        i++;
+      }
+      if (tableLines.length >= 2) {
+        const parseRow = (l: string) =>
+          l.replace(/^\|/, '').replace(/\|$/, '').split('|').map((c) => c.trim());
+        const headers = parseRow(tableLines[0]);
+        const isDelimiter = (l: string) => /^\|?\s*:?-+:?\s*(\|?\s*:?-+:?\s*)+\|?$/.test(l);
+        const startIdx = isDelimiter(tableLines[1]) ? 2 : 1;
+        const rows = tableLines.slice(startIdx).map(parseRow);
+        blocks.push({ type: 'table', headers, rows });
+      }
+      continue;
+    }
+
+    // Blockquote
+    if (trimmed.startsWith('>')) {
+      const bqLines: string[] = [];
+      while (i < lines.length && lines[i].trim().startsWith('>')) {
+        bqLines.push(lines[i].trim().replace(/^>\s?/, ''));
+        i++;
+      }
+      blocks.push({ type: 'blockquote', text: bqLines.join(' ') });
+      continue;
+    }
+
+    // List: unordered (- or *) or ordered (1.)
+    const isUnordered = /^[-*]\s+/.test(trimmed);
+    const isOrdered = /^\d+\.\s+/.test(trimmed);
+    if (isUnordered || isOrdered) {
+      const ordered = isOrdered;
+      const items: string[] = [];
+      while (i < lines.length) {
+        const cur = lines[i].trim();
+        if (!cur) break;
+        const match = ordered ? cur.match(/^\d+\.\s+(.*)$/) : cur.match(/^[-*]\s+(.*)$/);
+        if (match) {
+          items.push(match[1]);
+          i++;
+        } else if (items.length > 0 && (lines[i].startsWith('  ') || lines[i].startsWith('\t'))) {
+          items[items.length - 1] += ' ' + cur;
+          i++;
+        } else {
+          break;
+        }
+      }
+      blocks.push({ type: 'list', ordered, items });
+      continue;
+    }
+
+    // Paragraph: collect lines until blank line or special block starts
+    const pLines: string[] = [];
+    while (i < lines.length) {
+      const cur = lines[i].trim();
+      if (!cur) break;
+      if (
+        cur.startsWith('```') ||
+        cur === '---' ||
+        cur === '***' ||
+        cur.startsWith('#') ||
+        cur.startsWith('![') ||
+        cur.startsWith('|') ||
+        cur.startsWith('>') ||
+        /^[-*]\s+/.test(cur) ||
+        /^\d+\.\s+/.test(cur)
+      ) {
+        if (pLines.length > 0) break;
+      }
+      pLines.push(cur);
+      i++;
+    }
+    if (pLines.length > 0) {
+      blocks.push({ type: 'p', text: pLines.join(' ') });
+    }
+  }
+
+  return blocks;
+}
 
 export default function ArticlePage() {
   const { slug } = useParams<{ slug: string }>();
@@ -41,6 +262,8 @@ export default function ArticlePage() {
     setCopied(true);
     setTimeout(() => setCopied(false), 2200);
   };
+
+  const parsedBlocks = article.content ? parseMarkdownBlocks(article.content) : [];
 
   return (
     <motion.article
@@ -105,7 +328,7 @@ export default function ArticlePage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase font-bold text-brand-accent hover:underline border border-brand-accent/30 bg-brand-accent/5 px-2.5 py-1 sharp-edge"
             >
-              <span>Original on {article.venue || 'LinkedIn'}</span>
+              <span>Original on {article.venue || 'Publication'}</span>
               <ExternalLink size={11} />
             </a>
           )}
@@ -113,84 +336,136 @@ export default function ArticlePage() {
       </div>
 
       {/* Markdown Body Renderer */}
-      <div className="space-y-5 text-sm md:text-base leading-relaxed text-brand-dark/90 font-sans">
-        {article.content ? (
-          article.content.split('\n\n').map((block, idx) => {
-            const trimmed = block.trim();
+      <div className="space-y-6 text-sm md:text-base leading-relaxed text-brand-dark/90 font-sans">
+        {parsedBlocks.length > 0 ? (
+          parsedBlocks.map((block, idx) => {
+            switch (block.type) {
+              case 'hr':
+                return <hr key={idx} className="my-8 border-brand-dark/15" />;
 
-            // H1 / H2 Headers
-            if (trimmed.startsWith('# ')) {
-              return <h1 key={idx} className="font-serif text-2xl md:text-3xl font-bold text-brand-dark pt-4 pb-2">{trimmed.slice(2)}</h1>;
-            }
-            if (trimmed.startsWith('## ')) {
-              return <h2 key={idx} className="font-serif text-xl md:text-2xl font-bold text-brand-dark pt-4 pb-2 border-b border-brand-dark/10">{trimmed.slice(3)}</h2>;
-            }
-            if (trimmed.startsWith('### ')) {
-              return <h3 key={idx} className="font-serif text-lg font-bold text-brand-dark pt-3 pb-1">{trimmed.slice(4)}</h3>;
-            }
+              case 'h1':
+                return (
+                  <h1 key={idx} className="font-serif text-2xl md:text-3xl font-bold text-brand-dark pt-6 pb-2 leading-tight">
+                    {renderInline(block.text)}
+                  </h1>
+                );
 
-            // Images
-            const imageMatch = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
-            if (imageMatch) {
-              const [, alt, src] = imageMatch;
-              return (
-                <figure key={idx} className="my-8 space-y-2">
-                  <div className="overflow-hidden border border-brand-dark/15 bg-brand-surface sharp-edge shadow-sm">
-                    <img
-                      src={src}
-                      alt={alt}
-                      className="w-full h-auto object-cover"
-                      loading="lazy"
-                    />
+              case 'h2':
+                return (
+                  <h2 key={idx} className="font-serif text-xl md:text-2xl font-bold text-brand-dark pt-6 pb-2 border-b border-brand-dark/10 leading-snug">
+                    {renderInline(block.text)}
+                  </h2>
+                );
+
+              case 'h3':
+                return (
+                  <h3 key={idx} className="font-serif text-lg font-bold text-brand-dark pt-4 pb-1 leading-snug">
+                    {renderInline(block.text)}
+                  </h3>
+                );
+
+              case 'h4':
+                return (
+                  <h4 key={idx} className="font-serif text-base font-bold text-brand-dark pt-3 pb-1">
+                    {renderInline(block.text)}
+                  </h4>
+                );
+
+              case 'image':
+                return (
+                  <figure key={idx} className="my-8 space-y-2">
+                    <div className="overflow-hidden border border-brand-dark/15 bg-brand-surface sharp-edge shadow-sm">
+                      <img
+                        src={block.src}
+                        alt={block.alt}
+                        className="w-full h-auto object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                    {block.alt && (
+                      <figcaption className="font-mono text-[10px] uppercase tracking-wider text-brand-muted text-center">
+                        // {block.alt}
+                      </figcaption>
+                    )}
+                  </figure>
+                );
+
+              case 'table':
+                return (
+                  <div key={idx} className="my-8 overflow-x-auto border border-brand-dark/15 bg-brand-surface sharp-edge shadow-sm">
+                    <table className="w-full text-left font-sans text-xs md:text-sm border-collapse">
+                      <thead className="bg-brand-dark/5 border-b border-brand-dark/15">
+                        <tr>
+                          {block.headers.map((cell, cIdx) => (
+                            <th key={cIdx} className="p-3.5 font-mono text-[11px] uppercase tracking-wider font-bold text-brand-dark whitespace-nowrap">
+                              {renderInline(cell)}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-brand-dark/10">
+                        {block.rows.map((row, rIdx) => (
+                          <tr key={rIdx} className="hover:bg-brand-dark/[0.02] transition-colors">
+                            {row.map((cell, cIdx) => (
+                              <td key={cIdx} className="p-3.5 text-brand-dark/90 leading-relaxed">
+                                {renderInline(cell)}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
-                  {alt && (
-                    <figcaption className="font-mono text-[10px] uppercase tracking-wider text-brand-muted text-center">
-                      // {alt}
-                    </figcaption>
-                  )}
-                </figure>
-              );
-            }
+                );
 
-            // Blockquotes
-            if (trimmed.startsWith('> ')) {
-              return (
-                <blockquote key={idx} className="font-serif text-base md:text-lg italic border-l-2 border-brand-accent pl-4 py-2 my-4 bg-brand-accent/5 text-brand-dark">
-                  {trimmed.slice(2).replace(/^"/, '').replace(/"$/, '')}
-                </blockquote>
-              );
-            }
+              case 'blockquote':
+                return (
+                  <blockquote key={idx} className="font-serif text-base md:text-lg italic border-l-2 border-brand-accent pl-4 py-2 my-4 bg-brand-accent/5 text-brand-dark">
+                    {renderInline(block.text.replace(/^"/, '').replace(/"$/, ''))}
+                  </blockquote>
+                );
 
-            // Code blocks
-            if (trimmed.startsWith('```')) {
-              const lines = trimmed.split('\n');
-              const code = lines.slice(1, -1).join('\n');
-              return (
-                <pre key={idx} className="p-4 bg-brand-dark text-brand-bg font-mono text-xs overflow-x-auto sharp-edge border border-brand-dark/20 leading-relaxed my-4">
-                  <code>{code}</code>
-                </pre>
-              );
-            }
+              case 'code':
+                return (
+                  <div key={idx} className="my-6 border border-brand-dark/20 sharp-edge overflow-hidden shadow-sm">
+                    {block.lang && (
+                      <div className="px-4 py-1.5 bg-brand-dark/95 text-brand-bg/70 border-b border-brand-bg/10 font-mono text-[10px] uppercase tracking-wider flex justify-between items-center">
+                        <span>{block.lang}</span>
+                        <span className="text-[9px] opacity-60">RAW // CODE</span>
+                      </div>
+                    )}
+                    <pre className="p-4 bg-brand-dark text-brand-bg font-mono text-xs overflow-x-auto leading-relaxed">
+                      <code>{block.code}</code>
+                    </pre>
+                  </div>
+                );
 
-            // Ordered or unordered lists
-            if (trimmed.startsWith('- ') || trimmed.match(/^\d+\./)) {
-              return (
-                <ul key={idx} className="space-y-2 pl-4 list-disc font-sans text-sm">
-                  {trimmed.split('\n').map((li, liIdx) => (
-                    <li key={liIdx} className="leading-relaxed">
-                      {li.replace(/^-\s*/, '').replace(/^\d+\.\s*/, '')}
-                    </li>
-                  ))}
-                </ul>
-              );
-            }
+              case 'list': {
+                const Tag = block.ordered ? 'ol' : 'ul';
+                return (
+                  <Tag
+                    key={idx}
+                    className={`space-y-2 pl-6 font-sans text-sm md:text-base leading-relaxed ${
+                      block.ordered ? 'list-decimal' : 'list-disc'
+                    }`}
+                  >
+                    {block.items.map((item, itemIdx) => (
+                      <li key={itemIdx} className="leading-relaxed">
+                        {renderInline(item)}
+                      </li>
+                    ))}
+                  </Tag>
+                );
+              }
 
-            // Standard paragraphs
-            return (
-              <p key={idx} className="leading-relaxed">
-                {trimmed}
-              </p>
-            );
+              case 'p':
+              default:
+                return (
+                  <p key={idx} className="leading-relaxed">
+                    {renderInline(block.text)}
+                  </p>
+                );
+            }
           })
         ) : (
           <p className="font-serif text-base italic text-brand-muted">{article.blurb}</p>
