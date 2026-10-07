@@ -6,7 +6,7 @@
 import { useEffect, useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ArrowUpRight, ArrowRight, Check, Mail, Linkedin, Github, Globe, ExternalLink, Terminal, Sparkles, BookOpen } from 'lucide-react';
+import { ArrowUpRight, ArrowRight, Check, Mail, Linkedin, Github, Globe, ExternalLink, Terminal, Sparkles, BookOpen, Headphones, Radio, Disc } from 'lucide-react';
 import { CASE_STUDIES, PROJECTS, EXPERIENCES, SKILL_CATEGORIES, BUILD_DECISIONS, BOOKS } from '../data';
 import { useUI } from '../context/UIContext';
 import zacharyPortrait from '../assets/images/zachary-portrait.jpg';
@@ -148,6 +148,89 @@ export default function HomePage({ anchor }: HomePageProps) {
                   <span className="font-bold text-brand-accent">EU / US / APAC Overlap</span>
                 </div>
               </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* AMBIENT ROTATION: HANGING AUDIO TERMINAL */}
+      <section
+        className="py-16 md:py-24 px-6 md:px-12 w-full max-w-7xl mx-auto border-t border-brand-dark/15 relative"
+        id="soundtrack"
+      >
+        <div className="max-w-3xl mx-auto relative">
+          {/* Top Suspension Hardware Beam & Tension Cords */}
+          <div className="relative flex justify-between items-center px-10 sm:px-20 mb-[-1px] z-10">
+            {/* Left suspension cable & anchor bracket */}
+            <div className="flex flex-col items-center">
+              <div className="w-2.5 h-2.5 rounded-full border-2 border-brand-dark bg-brand-accent/80 shadow-sm" title="Suspension Mount Left" />
+              <div className="w-[1.5px] h-10 md:h-14 bg-gradient-to-b from-brand-dark via-brand-dark/40 to-brand-accent" />
+              <div className="w-4 h-2 border border-brand-dark bg-brand-surface sharp-edge -mb-1" />
+            </div>
+
+            {/* Center Suspension Plate */}
+            <div className="px-3.5 py-1 border border-brand-dark/20 bg-brand-surface/90 backdrop-blur-sm sharp-edge font-mono text-[9px] uppercase tracking-[0.2em] font-bold text-brand-muted shadow-xs flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-accent animate-pulse" />
+              <span>STUDIO ROTATION // SUSPENDED AUDIO TERMINAL</span>
+            </div>
+
+            {/* Right suspension cable & anchor bracket */}
+            <div className="flex flex-col items-center">
+              <div className="w-2.5 h-2.5 rounded-full border-2 border-brand-dark bg-brand-accent/80 shadow-sm" title="Suspension Mount Right" />
+              <div className="w-[1.5px] h-10 md:h-14 bg-gradient-to-b from-brand-dark via-brand-dark/40 to-brand-accent" />
+              <div className="w-4 h-2 border border-brand-dark bg-brand-surface sharp-edge -mb-1" />
+            </div>
+          </div>
+
+          {/* Suspended Audio Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-10% 0px' }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="border border-brand-dark/20 bg-brand-surface sharp-edge shadow-xl overflow-hidden relative"
+          >
+            {/* Top Bar of the Player Console */}
+            <div className="px-5 py-3.5 border-b border-brand-dark/15 bg-brand-dark/[0.03] flex flex-wrap justify-between items-center gap-2">
+              <div className="flex items-center gap-2.5">
+                <span className="p-1 border border-brand-accent/40 bg-brand-accent/10 sharp-edge text-brand-accent">
+                  <Headphones size={13} />
+                </span>
+                <span className="font-mono text-[10px] uppercase font-bold tracking-wider text-brand-dark">
+                  RECOMMENDED PLAYLIST // HIGH-FOCUS CODING CADENCE
+                </span>
+              </div>
+              <div className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-wider text-brand-muted">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span>FEED ONLINE</span>
+              </div>
+            </div>
+
+            {/* Iframe Wrapper */}
+            <div className="p-4 md:p-6 bg-brand-surface flex justify-center">
+              <iframe
+                data-testid="embed-iframe"
+                style={{ borderRadius: '12px' }}
+                src="https://open.spotify.com/embed/playlist/7hw5VWDYPx8GIOXw5uxU1t?utm_source=generator&si=a1c237d5d79f448e"
+                width="100%"
+                height="352"
+                frameBorder="0"
+                allowFullScreen
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+                className="w-full shadow-sm"
+                title="Zachary Ongeri Recommended Spotify Playlist"
+              />
+            </div>
+
+            {/* Console Readout Footer */}
+            <div className="px-5 py-2.5 border-t border-brand-dark/10 bg-brand-dark/[0.02] flex flex-wrap justify-between items-center text-[9px] font-mono text-brand-muted uppercase tracking-wider gap-2">
+              <span>CADENCE: DEEP_WORK_FLOW // 128_BPM</span>
+              <span className="hidden sm:inline">SPOTIFY_FEED // 7hw5VWDYPx8GIOXw5uxU1t</span>
+              <span className="text-brand-accent font-bold">// CURATED BY ZACHARY</span>
             </div>
           </motion.div>
         </div>
